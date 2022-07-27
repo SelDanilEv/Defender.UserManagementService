@@ -15,10 +15,10 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
 WORKDIR /src
 
-COPY ["src/WebUI/WebUI.csproj", "WebUI/"]
-COPY ["src/Application/Application.csproj", "Application/"]
-COPY ["src/Domain/Domain.csproj", "Domain/"]
-COPY ["src/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["WebUI/WebUI.csproj", "WebUI/"]
+COPY ["Application/Application.csproj", "Application/"]
+COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 
 RUN dotnet restore "WebUI/WebUI.csproj"
 COPY . .
