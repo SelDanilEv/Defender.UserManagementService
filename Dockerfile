@@ -18,7 +18,7 @@ WORKDIR /src
 COPY ["src/WebUI/WebUI.csproj", "WebUI/"]
 COPY ["src/Application/Application.csproj", "Application/"]
 COPY ["src/Domain/Domain.csproj", "Domain/"]
-COPY ["src/WebUI/WebUI.csproj", "WebUI/"]
+COPY ["src/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 
 RUN dotnet restore "WebUI/WebUI.csproj"
 COPY . .
