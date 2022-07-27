@@ -34,32 +34,42 @@ const APICallWrapper = async (
 
         const response = await fetch(url, options);
 
-        if (response.status == 200) {
-            await onSuccess(response)
+        console.log("behind  await fetch")
 
-            if (showSuccess) {
-                toast.success(successMesage, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-            }
-            return
-        }
+        switch (response.status) {
+            case 200:
+                await onSuccess(response)
 
-        let error = await response.json();
+                if (showSuccess) {
+                    toast.success(successMesage, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+                return
+            case 401:
+                await onFailure(response)
+                break;
+            default:
+                await onFailure(response)
 
-        await onFailure(response)
-
-        if (showError) {
-            ErrorToast(error.detail);
+                if (showError) {
+                    let error = await response.json();
+                    ErrorToast(error.detail);
+                    break;
+                }
         }
 
     } catch (error) {
+        console.log("error")
+        console.log(error)
+
+        await onFailure(error)
         ErrorToast(error);
     } finally {
         await onFinal();

@@ -21,7 +21,7 @@ const UserService = {
 
         for (
             let i = 0, role = {} as { key: string, value: string };
-            i < roleList.length;
+            i < roleList.length && roles;
             role = roleList[i++]) {
             if (roles.includes(role.key)) {
                 return role.value;

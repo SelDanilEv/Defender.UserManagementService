@@ -1,5 +1,4 @@
-import React from 'react';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import { Box, alpha, lighten, useTheme } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
@@ -10,6 +9,7 @@ import { connect } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import APICallWrapper from 'src/helpers/APIWrapper/APICallWrapper';
 import { logout } from 'src/actions/authActions';
+import ErrorToast from 'src/components/Toast/DefaultErrorToast';
 
 
 interface SidebarLayoutProps {
@@ -20,7 +20,8 @@ const SidebarLayout: FC<SidebarLayoutProps> = (props: any) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
+
     APICallWrapper(
       {
         url: "api/home",
@@ -29,6 +30,7 @@ const SidebarLayout: FC<SidebarLayoutProps> = (props: any) => {
         },
         onFailure: async (response) => {
           if (response.status == 401) {
+            ErrorToast(response.statusText);
             props.logout();
             navigate("/");
           }

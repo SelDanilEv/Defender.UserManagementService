@@ -18,13 +18,15 @@ const authReducer = (state = {
             break;
         case "LOGOUT":
             stateLoader.cleanState();
-            state =
-            {
-                ...state,
-                token: '',
-                user: {} as UserInfo,
-                isAuthenticated: false
-            };
+            if (state.isAuthenticated) {
+                state =
+                {
+                    ...state,
+                    token: '',
+                    user: {} as UserInfo,
+                    isAuthenticated: false
+                };
+            }
             break;
         default:
             break;
