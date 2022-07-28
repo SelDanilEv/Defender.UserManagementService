@@ -29,5 +29,5 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
     'Pem',
     '--no-password',
   ], { stdio: 'inherit', })
-    .on('exit', (code) => process.exit(code));
+  .on('exit', (code) => process.exit(code));
 }
