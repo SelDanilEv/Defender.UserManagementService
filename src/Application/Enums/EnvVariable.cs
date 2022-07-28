@@ -5,6 +5,5 @@ public enum EnvVariable
     JwtSecret,
     GoogleClientId,
     GoogleClientSecret,
-    JwtEmailEncryption,
     MongoDBPassword
 }

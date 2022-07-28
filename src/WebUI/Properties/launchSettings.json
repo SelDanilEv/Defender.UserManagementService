@@ -3,19 +3,19 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:53274",
-      "sslPort": 44380
+      "applicationUrl": "http://localhost:52530",
+      "sslPort": 44379
     }
   },
   "profiles": {
-    "Defender.UserManagement": {
+    "WebUI": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
       },
-      "publishAllPorts": true
+      "applicationUrl": "https://localhost:7239;http://localhost:5239"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -29,15 +29,8 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "environmentVariables": {
-        "ASPNETCORE_URLS": "https://+:443;http://+:80",
-        "ASPNETCORE_HTTPS_PORT": "7136",
-        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
-      },
       "publishAllPorts": true,
-      "useSSL": true,
-      "httpPort": 5136,
-      "sslPort": 7136
+      "useSSL": true
     }
   }
 }

@@ -1,33 +1,65 @@
-﻿using Defender.UserManagement.Application.Common.Exceptions;
+﻿using System.Text;
+using Defender.UserManagement.Application.Common.Exceptions;
 using Defender.UserManagement.Application.Common.Interfaces;
+using Defender.UserManagement.Application.Enums;
+using Defender.UserManagement.Application.Helpers;
 using Defender.UserManagement.WebUI.Filters;
 using Defender.UserManagement.WebUI.Services;
 using FluentValidation.AspNetCore;
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace Defender.UserManagement.WebUI;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddWebUIServices(this IServiceCollection services, IWebHostEnvironment environment)
+    public static IServiceCollection AddWebUIServices(this IServiceCollection services, IWebHostEnvironment environment, IConfiguration configuration)
     {
         services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
         services.AddHttpContextAccessor();
 
-        //services.AddProblemDetails(options => ConfigureProblemDetails(options, environment));
+        services.AddProblemDetails(options => ConfigureProblemDetails(options, environment));
+
+        services.AddJwtAuthentication(configuration);
 
         services.AddSwagger();
 
         services.AddControllers(options =>
              options.Filters.Add<ApiExceptionFilterAttribute>())
                  .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
+        services.AddControllers();
 
-        // Customise default API behaviour
         services.Configure<ApiBehaviorOptions>(options =>
             options.SuppressModelStateInvalidFilter = true);
+
+        return services;
+    }
+
+    private static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAuthentication(auth =>
+        {
+            auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.RequireHttpsMetadata = false;
+            options.SaveToken = true;
+            options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = false,
+                ValidIssuer = configuration["JwtTokenIssuer"],
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(
+                        EnvVariableResolver.GetEnvironmentVariable(EnvVariable.JwtSecret)))
+            };
+        });
 
         return services;
     }
@@ -74,7 +106,7 @@ public static class ConfigureServices
 
     private static void ConfigureProblemDetails(ProblemDetailsOptions options, IWebHostEnvironment environment)
     {
-        options.IncludeExceptionDetails = (ctx, ex) => (environment.IsEnvironment("Development"));
+        options.IncludeExceptionDetails = (ctx, ex) => environment.IsEnvironment("Development");
 
         options.Map<ValidationException>(exception =>
         {

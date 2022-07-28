@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Defender.UserManagement.Application.Models.LoginResponse;
 using Defender.UserManagement.Application.Modules.Auth.Commands;
 
-namespace Defender.UserManagement.WebUI.Controllers;
+namespace Defender.UserManagement.WebUI.Controllers.V1;
 
 public class AuthController : BaseApiController
 {

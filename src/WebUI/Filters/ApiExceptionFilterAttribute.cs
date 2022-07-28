@@ -11,7 +11,6 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     public ApiExceptionFilterAttribute()
     {
-        // Register known exception types and handlers.
         _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
                 { typeof(ValidationException), HandleValidationException },

@@ -1,30 +1,56 @@
-using Defender.UserManagement.Application.Helpers;
+using Defender.UserManagement.Application;
+using Defender.UserManagement.Infrastructure;
+using Defender.UserManagement.WebUI;
+using Hellang.Middleware.ProblemDetails;
 using Serilog;
 
-namespace Defender.UserManagement.WebUI;
+var builder = WebApplication.CreateBuilder(args);
 
-public static class Program
+var logger = new LoggerConfiguration()
+  .ReadFrom.Configuration(builder.Configuration)
+  .Enrich.FromLogContext()
+  .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+builder.Services.AddWebUIServices(builder.Environment, builder.Configuration);
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddInfrastructureServices(builder.Configuration);
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
 {
-    public static void Main(string[] args)
+    app.UseDeveloperExceptionPage();
+
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
     {
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
-            .WriteTo.Console()
-            .CreateLogger();
-
-        SimpleLogger.Log("Starting Service");
-
-        var host = CreateHostBuilder(args)
-            .Build();
-        host.Run();
-    }
-
-    private static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder
-                    .UseKestrel(server => server.AddServerHeader = false)
-                    .UseStartup<Startup>();
-            });
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    });
 }
+else
+{
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+app.UseCors("AllowAll");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseProblemDetails();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "api/{controller}/{action=Index}");
+
+app.MapFallbackToFile("index.html");
+
+app.Run();

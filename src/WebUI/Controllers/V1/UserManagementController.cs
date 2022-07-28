@@ -7,7 +7,7 @@ using Defender.UserManagement.Application.Modules.Users.Commands;
 using Defender.UserManagement.Domain.Models;
 using Defender.UserManagement.Application.DTOs;
 
-namespace Defender.UserManagement.WebUI.Controllers;
+namespace Defender.UserManagement.WebUI.Controllers.V1;
 
 public class UserManagementController : BaseApiController
 {
@@ -54,6 +54,6 @@ public class UserManagementController : BaseApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task RemoveUserAsync(RemoveUserCommand updateUserCommand)
     {
-        await ProcessApiCallAsync<RemoveUserCommand>(updateUserCommand);
+        await ProcessApiCallAsync(updateUserCommand);
     }
 }

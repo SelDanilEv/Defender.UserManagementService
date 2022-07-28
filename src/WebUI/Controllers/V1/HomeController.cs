@@ -6,7 +6,7 @@ using Defender.UserManagement.Application.Modules.Home.Queries;
 using Defender.UserManagement.Application.Enums;
 using Defender.UserManagement.Domain.Models;
 
-namespace Defender.UserManagement.WebUI.Controllers;
+namespace Defender.UserManagement.WebUI.Controllers.V1;
 
 public class HomeController : BaseApiController
 {

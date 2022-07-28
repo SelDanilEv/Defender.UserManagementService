@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace Defender.UserManagement.WebUI.Controllers;
