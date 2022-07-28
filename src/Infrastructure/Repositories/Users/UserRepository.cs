@@ -1,4 +1,4 @@
-﻿using Defender.UserManagement.Application.Common.Interfaces.Repositories;
+﻿using Defender.UserManagement.Application.Common.Interfaces.Repositories.Users;
 using Defender.UserManagement.Application.Configuration.Options;
 using Defender.UserManagement.Domain.Entities.User;
 using Microsoft.Extensions.Options;

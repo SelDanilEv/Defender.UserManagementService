@@ -1,5 +1,5 @@
 ﻿using Defender.UserManagement.Application.Common.Interfaces;
-using Defender.UserManagement.Application.Common.Interfaces.Repositories;
+using Defender.UserManagement.Application.Common.Interfaces.Repositories.Users;
 using Defender.UserManagement.Application.Models;
 using Defender.UserManagement.Application.Models.Google;
 using Defender.UserManagement.Domain.Entities.User;

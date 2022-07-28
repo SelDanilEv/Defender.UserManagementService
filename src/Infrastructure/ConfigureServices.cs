@@ -1,15 +1,13 @@
 ﻿using Defender.UserManagement.Application.Common.Interfaces;
-using Defender.UserManagement.Application.Common.Interfaces.Repositories;
+using Defender.UserManagement.Application.Common.Interfaces.Repositories.Users;
 using Defender.UserManagement.Application.Configuration.Options;
 using Defender.UserManagement.Infrastructure.Clients;
 using Defender.UserManagement.Infrastructure.Clients.Interfaces;
-using Defender.UserManagement.Infrastructure.Repositories;
 using Defender.UserManagement.Infrastructure.Repositories.Users;
 using Defender.UserManagement.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Defender.UserManagement.Infrastructure;
 

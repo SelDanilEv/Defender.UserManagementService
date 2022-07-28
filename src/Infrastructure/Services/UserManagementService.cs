@@ -1,6 +1,6 @@
 ﻿using Defender.UserManagement.Application.Common.Exceptions;
 using Defender.UserManagement.Application.Common.Interfaces;
-using Defender.UserManagement.Application.Common.Interfaces.Repositories;
+using Defender.UserManagement.Application.Common.Interfaces.Repositories.Users;
 using Defender.UserManagement.Domain.Entities.User;
 
 namespace Defender.UserManagement.Infrastructure.Services;

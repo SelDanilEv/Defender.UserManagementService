@@ -1,6 +1,6 @@
 ﻿using Defender.UserManagement.Domain.Entities.User;
 
-namespace Defender.UserManagement.Application.Common.Interfaces.Repositories;
+namespace Defender.UserManagement.Application.Common.Interfaces.Repositories.Users;
 
 public interface IUserRepository
 {

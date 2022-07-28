@@ -4,8 +4,9 @@ using Defender.UserManagement.Application.Common.Behaviours;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace Defender.UserManagement.Application;
 
 public static class ConfigureServices
 {
