@@ -17,7 +17,7 @@ public static class ConfigureServices
 
         services.AddHttpContextAccessor();
 
-        services.AddProblemDetails(options => ConfigureProblemDetails(options, environment));
+        //services.AddProblemDetails(options => ConfigureProblemDetails(options, environment));
 
         services.AddSwagger();
 
