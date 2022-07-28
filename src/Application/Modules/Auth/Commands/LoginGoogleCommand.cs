@@ -89,7 +89,7 @@ public sealed class LoginGoogleCommandHandler : IRequestHandler<LoginGoogleComma
               _configuration["JwtTokenIssuer"],
               null,
               claims,
-              expires: DateTime.Now.AddSeconds(10 * 1),
+              expires: DateTime.Now.AddSeconds(60 * 60),
               signingCredentials: creds);
 
             response.Token = new JwtSecurityTokenHandler().WriteToken(token);

@@ -14,7 +14,8 @@ public static class Program
 
         SimpleLogger.Log("Starting Service");
 
-        var host = CreateHostBuilder(args).Build();
+        var host = CreateHostBuilder(args)
+            .Build();
         host.Run();
     }
 
