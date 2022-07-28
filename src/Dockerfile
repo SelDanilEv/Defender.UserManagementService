@@ -15,21 +15,18 @@ RUN apt-get install -y nodejs
 
 WORKDIR /src
 
-COPY ["WebUI/WebUI.csproj", "WebUI/"]
-COPY ["Application/Application.csproj", "Application/"]
-COPY ["Domain/Domain.csproj", "Domain/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["CleanProject/CleanProject.csproj", "CleanProject/"]
 
-RUN dotnet restore "WebUI/WebUI.csproj"
+RUN dotnet restore "CleanProject/CleanProject.csproj"
 COPY . .
-WORKDIR "/src/WebUI"
-RUN dotnet build "WebUI.csproj" -c Release -o /app/build
+WORKDIR "/src/CleanProject"
+RUN dotnet build "CleanProject.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "WebUI.csproj" -c Release -o /app/publish
+RUN dotnet publish "CleanProject.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet Defender.UserManagement.WebUI.dll
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet CleanProject.dll
