@@ -1,14 +1,17 @@
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+@media only screen and (min-width: 1280px) {
+  html {
+    font-size: 100%;
+  }
 }
 
-code {
-  color: #E01A76;
+@media only screen and (min-width: 1536px) {
+  html {
+    font-size: 125%;
+  }
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+@media only screen and (min-width: 1920px) {
+  html {
+    font-size: 150%;
+  }
 }

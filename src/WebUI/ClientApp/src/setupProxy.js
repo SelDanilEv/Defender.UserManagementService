@@ -9,9 +9,6 @@ const context = [
 ];
 
 module.exports = function (app) {
-  console.log("setup proxy");
-  console.log(target);
-
   const appProxy = createProxyMiddleware(context, {
     target: target,
     secure: false
