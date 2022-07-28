@@ -1,1 +1,0 @@
-Defender User Management Service
