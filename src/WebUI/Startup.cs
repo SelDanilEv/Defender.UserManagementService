@@ -5,7 +5,6 @@ using Defender.UserManagement.Infrastructure;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 
 namespace Defender.UserManagement.WebUI;
 
