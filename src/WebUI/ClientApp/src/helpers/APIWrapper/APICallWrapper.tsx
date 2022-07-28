@@ -34,8 +34,6 @@ const APICallWrapper = async (
 
         const response = await fetch(url, options);
 
-        console.log("behind  await fetch")
-
         switch (response.status) {
             case 200:
                 await onSuccess(response)
@@ -66,9 +64,6 @@ const APICallWrapper = async (
         }
 
     } catch (error) {
-        console.log("error")
-        console.log(error)
-
         await onFailure(error)
         ErrorToast(error);
     } finally {
