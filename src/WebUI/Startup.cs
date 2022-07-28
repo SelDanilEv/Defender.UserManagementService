@@ -5,6 +5,7 @@ using Defender.UserManagement.Infrastructure;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Builder;
 
 namespace Defender.UserManagement.WebUI;
 
@@ -69,10 +70,7 @@ public sealed class Startup
         }
 
         app.UseHttpsRedirection();
-
-
         app.UseStaticFiles();
-
         app.UseRouting();
 
         app.UseCors("AllowAll");
@@ -87,6 +85,8 @@ public sealed class Startup
             endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "api/{controller}/{action=Index}");
+            endpoints.MapFallbackToFile("index.html");
+
         });
     }
 }
