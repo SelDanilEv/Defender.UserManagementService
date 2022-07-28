@@ -77,7 +77,7 @@ public sealed class Startup
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseProblemDetails();
+        //app.UseProblemDetails();
 
         app.UseEndpoints(endpoints =>
         {
