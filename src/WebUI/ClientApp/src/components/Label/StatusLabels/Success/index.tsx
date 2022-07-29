@@ -1,6 +1,6 @@
-import Label from 'src/components/Label';
-
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
+
+import Label from 'src/components/Label';
 
 const SuccessStatus = (props: any) => {
 

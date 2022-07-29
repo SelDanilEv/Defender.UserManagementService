@@ -1,4 +1,4 @@
-import { UserInfo } from "../models/user_info";
+import { UserInfo } from "src/models/user_info";
 
 const UserService = {
     FromAuthUserToUser: (authUser: UserInfo) => {

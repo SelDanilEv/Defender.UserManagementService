@@ -1,6 +1,6 @@
-import Label from 'src/components/Label';
-
 import SyncIcon from '@mui/icons-material/Sync';
+
+import Label from 'src/components/Label';
 
 const PendingStatus = (props: any) => {
 

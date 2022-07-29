@@ -1,21 +1,19 @@
 import { useRoutes } from 'react-router-dom';
-import router from 'src/router';
-
+import { Provider } from "react-redux";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-
 import { CssBaseline } from '@mui/material';
-import ThemeProvider from './theme/ThemeProvider';
-
-import { Provider } from "react-redux";
-import store from "./state/store";
-
 import { ToastContainer } from 'react-toastify';
-import LoadingBar from './helpers/LoadingBar/LoadingBar';
 
-import './custom.css'
+import stateLoader from 'src/state/StateLoader';
+import store from "src/state/store";
+import LoadingBar from 'src/components/LoadingBar/LoadingBar';
+import ThemeProvider from 'src/theme/ThemeProvider';
+import router from 'src/router';
+
+import 'src/custom.css'
 import 'react-toastify/dist/ReactToastify.css';
-import stateLoader from './state/StateLoader';
+
 
 function App() {
   const content = useRoutes(router);
@@ -48,4 +46,5 @@ function App() {
     </Provider>
   );
 }
+
 export default App;

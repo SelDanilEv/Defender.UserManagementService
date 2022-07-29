@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using Defender.AppTemplate.Application.Configuration;
 using Defender.UserManagement.Application.Common.Behaviours;
+using Defender.UserManagement.Application.Configuration.Exstension;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;

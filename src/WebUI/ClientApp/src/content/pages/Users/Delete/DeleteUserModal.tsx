@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
-
 import { Grid } from '@mui/material';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 
 import ButtonSuccess from 'src/components/Buttons/ButtonSuccess';
 import ButtonError from 'src/components/Buttons/ButtonError';
-import APICallWrapper from 'src/helpers/APIWrapper/APICallWrapper';
+import APICallWrapper from 'src/api/APIWrapper/APICallWrapper';
+import apiUrls from 'src/api/apiUrls';
+
 
 const DeleteUserDialog = (props) => {
   const { onClose, onSuccess, open, userId } = props;
@@ -19,7 +20,7 @@ const DeleteUserDialog = (props) => {
 
     APICallWrapper(
       {
-        url: `api/UserManagement/admin/user?Id=${userId}`,
+        url: `${apiUrls.usermanagement.deleteUser}?Id=${userId}`,
         options: {
           method: 'DELETE'
         },

@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-import config from '../../config.json';
+import config from 'src/config.json';
 
 const LogoWrapper = styled(Link)(
   ({ theme }) => `

@@ -8,16 +8,19 @@ import {
   Divider,
   Card
 } from '@mui/material';
-
 import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
 import SaveIcon from '@mui/icons-material/Save';
 import { useLocation, useNavigate } from 'react-router';
-import { UserInfo } from 'src/models/user_info';
-import { useState } from 'react';
-import EditFromAdmin from './EditFromAdmin';
-import APICallWrapper from 'src/helpers/APIWrapper/APICallWrapper';
-import EditFromSuperAdmin from './EditFromSuperAdmin';
 import { connect } from 'react-redux';
+import { useState } from 'react';
+
+import EditFromSuperAdmin from './EditFromSuperAdmin';
+import EditFromAdmin from './EditFromAdmin';
+
+import { UserInfo } from 'src/models/user_info';
+import APICallWrapper from 'src/api/APIWrapper/APICallWrapper';
+import apiUrls from 'src/api/apiUrls';
+
 
 interface UserState {
   user: UserInfo
@@ -38,7 +41,7 @@ const UpdateUserPage = (props: any) => {
 
     APICallWrapper(
       {
-        url: "/api/UserManagement/admin/user",
+        url: apiUrls.usermanagement.updateUser,
         options: {
           method: 'PUT',
           headers: {

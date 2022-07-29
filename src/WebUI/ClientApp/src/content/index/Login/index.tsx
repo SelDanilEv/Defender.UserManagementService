@@ -1,15 +1,16 @@
 import { Box, Container, Grid, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-import { login } from "../../../actions/authActions";
 import { useGoogleLogin } from '@react-oauth/google';
-
 import { styled } from '@mui/material/styles';
-import config from '../../../config.json';
+
 import LockedButton from 'src/components/LockedComponents/Buttons/LockedButton';
 import LoadingStateService from 'src/services/LoadingStateService';
-import APICallWrapper from 'src/helpers/APIWrapper/APICallWrapper';
+import APICallWrapper from 'src/api/APIWrapper/APICallWrapper';
 import ErrorToast from 'src/components/Toast/DefaultErrorToast';
+import config from 'src/config.json';
+import { login } from "src/actions/authActions";
+import apiUrls from 'src/api/apiUrls';
 
 const TypographyH1 = styled(Typography)(
   ({ theme }) => `
@@ -67,7 +68,7 @@ const Login = (props: any) => {
 
     APICallWrapper(
       {
-        url: config.GOOGLE_AUTH_CALLBACK_URL,
+        url: apiUrls.auth.google,
         options: {
           method: 'POST',
           headers: {

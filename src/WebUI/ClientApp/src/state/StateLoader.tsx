@@ -1,4 +1,5 @@
-import config from '../config.json';
+import config from 'src/config.json';
+
 
 const stateName = config.APP_CODE + ":state";
 

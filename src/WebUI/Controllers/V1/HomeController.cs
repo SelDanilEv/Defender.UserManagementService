@@ -14,14 +14,23 @@ public class HomeController : BaseApiController
     {
     }
 
-    [HttpGet]
-    [Auth(Roles.User)]
+    [HttpGet("health")]
     [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<object> HealthCheckAsync()
     {
         return new { Status = "Healthy" };
+    }
+
+    [HttpGet("authorization/check")]
+    [Auth(Roles.User)]
+    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task<object> AuthorizationCheckAsync()
+    {
+        return new { IsAuthorized = true };
     }
 
     [Auth(Roles.Admin, Roles.SuperAdmin)]

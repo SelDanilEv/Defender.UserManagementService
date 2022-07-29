@@ -1,5 +1,5 @@
-import stateLoader from "../state/StateLoader"
-import { UserInfo } from "../models/user_info"
+import stateLoader from "src/state/StateLoader"
+import { UserInfo } from "src/models/user_info"
 
 const authReducer = (state = {
     token: '',

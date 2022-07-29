@@ -1,4 +1,4 @@
-import store from "../state/store"
+import store from "src/state/store"
 
 const LoadingStateService = {
     StartLoading: () => {

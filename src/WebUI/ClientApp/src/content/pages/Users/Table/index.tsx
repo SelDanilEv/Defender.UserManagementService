@@ -1,15 +1,18 @@
 import { Card } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { UserInfo } from 'src/models/user_info';
+
 import UsersTable from './UsersTable';
-import APICallWrapper from 'src/helpers/APIWrapper/APICallWrapper';
+
+import APICallWrapper from 'src/api/APIWrapper/APICallWrapper';
+import { UserInfo } from 'src/models/user_info';
+import apiUrls from 'src/api/apiUrls';
 
 function Users() {
 
   const updateUserList = () => {
     APICallWrapper(
       {
-        url: "api/UserManagement/admin/users",
+        url: apiUrls.usermanagement.getUsers,
         options: {
           method: 'GET'
         },

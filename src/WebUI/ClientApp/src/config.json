@@ -1,6 +1,5 @@
 {
   "GOOGLE_CLIENT_ID": "210620911155-fos6tu15v2c0ur8dqctqm09qba9qg3le.apps.googleusercontent.com",
-  "GOOGLE_AUTH_CALLBACK_URL": "api/auth/google",
   "APP_CODE": "defender_um",
   "NAME_OF_APP": "User Management",
   "APP_DESCRIPTION": "Service to auth and user management",

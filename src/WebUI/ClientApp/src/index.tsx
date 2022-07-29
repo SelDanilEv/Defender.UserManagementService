@@ -4,13 +4,15 @@ import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-import 'nprogress/nprogress.css';
 import App from 'src/App';
 import { SidebarProvider } from 'src/contexts/SidebarContext';
-import store from "./state/store";
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
-import config from './config.json';
+import store from "src/state/store";
+import * as serviceWorkerRegistration from 'src/serviceWorkerRegistration';
+import reportWebVitals from 'src/reportWebVitals';
+import config from 'src/config.json';
+
+import 'nprogress/nprogress.css';
+
 
 ReactDOM.render(
   <Provider store={store}>
