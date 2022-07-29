@@ -15,7 +15,6 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<IDateTime, DateTimeService>();
         services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<IUserManagementService, UserManagementService>();
         services.AddTransient<IGoogleTokenValidationService, GoogleTokenValidationService>();
