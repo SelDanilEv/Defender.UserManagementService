@@ -244,7 +244,7 @@ const UsersTable: FC<UsersTableProps> = ({ users: users, setNewUserList: setNewU
                         {user.createdDate}
                       </Typography>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell  sx={{ paddingLeft: 1 }} align="center">
                       <Tooltip title="Edit" arrow>
                         <IconButton
                           sx={{
