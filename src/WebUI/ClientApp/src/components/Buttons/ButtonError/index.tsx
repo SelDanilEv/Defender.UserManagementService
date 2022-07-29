@@ -2,8 +2,8 @@ import {
     Button,
     useTheme,
     styled,
-    ButtonProps,
 } from '@mui/material';
+
 import CustomButtonProps from '../Interface';
 
 const RedButton = styled(Button)(

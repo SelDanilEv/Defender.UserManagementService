@@ -1,9 +1,3 @@
-import { useRef, useState } from 'react';
-import { connect } from "react-redux";
-import { logout } from "../../../../actions/authActions";
-import { useNavigate } from "react-router-dom";
-import { NavLink } from 'react-router-dom';
-
 import {
   Avatar,
   Box,
@@ -17,12 +11,17 @@ import {
   Popover,
   Typography
 } from '@mui/material';
-
+import { useRef, useState } from 'react';
+import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
+
 import UserService from 'src/services/UserService';
+import { logout } from "src/actions/authActions";
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `

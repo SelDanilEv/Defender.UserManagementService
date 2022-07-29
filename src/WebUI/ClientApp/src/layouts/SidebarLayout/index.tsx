@@ -1,15 +1,16 @@
 import { FC, ReactNode, useEffect } from 'react';
 import { Box, alpha, lighten, useTheme } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import { connect } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
 import Sidebar from './Sidebar';
 import Header from './Header';
-import { connect } from 'react-redux';
 
-import { useNavigate } from "react-router-dom";
-import APICallWrapper from 'src/helpers/APIWrapper/APICallWrapper';
+import APICallWrapper from 'src/api/APIWrapper/APICallWrapper';
 import { logout } from 'src/actions/authActions';
 import ErrorToast from 'src/components/Toast/DefaultErrorToast';
+import apiUrls from 'src/api/apiUrls';
 
 
 interface SidebarLayoutProps {
@@ -24,7 +25,7 @@ const SidebarLayout: FC<SidebarLayoutProps> = (props: any) => {
 
     APICallWrapper(
       {
-        url: "api/home",
+        url: apiUrls.home.authcheck,
         options: {
           method: 'GET'
         },

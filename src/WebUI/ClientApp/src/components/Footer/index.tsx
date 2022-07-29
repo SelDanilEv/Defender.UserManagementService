@@ -1,6 +1,6 @@
 import { Box, Container, Link, Typography, styled } from '@mui/material';
 
-import config from '../../config.json';
+import config from 'src/config.json';
 
 const FooterWrapper = styled(Container)(
   ({ theme }) => `

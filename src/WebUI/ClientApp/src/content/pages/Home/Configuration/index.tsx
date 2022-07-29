@@ -7,10 +7,11 @@ import {
     TextField,
     useTheme,
 } from '@mui/material';
-
 import { useEffect, useState } from 'react';
-import APICallWrapper from 'src/helpers/APIWrapper/APICallWrapper';
+
+import APICallWrapper from 'src/api/APIWrapper/APICallWrapper';
 import PendingStatus from 'src/components/Label/StatusLabels/Pending';
+import apiUrls from 'src/api/apiUrls';
 
 const Configuration = (props: any) => {
     const theme = useTheme();
@@ -21,7 +22,7 @@ const Configuration = (props: any) => {
 
         APICallWrapper(
             {
-                url: "api/home/configuration",
+                url: apiUrls.home.configuration,
                 options: {
                     method: 'GET'
                 },
@@ -84,7 +85,7 @@ const Configuration = (props: any) => {
     const handleChange = (event) => {
         APICallWrapper(
             {
-                url: `api/home/configuration?configurationLevel=${event.target.value}`,
+                url: `${apiUrls.home.configuration}?configurationLevel=${event.target.value}`,
                 options: {
                     method: 'GET'
                 },
