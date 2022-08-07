@@ -43,7 +43,7 @@ public class UserManagementController : BaseApiController
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<UserDto> UpdateUserFromUserAsync(UpdateAccountFromUserCommand updateUserCommand)
+    public async Task<UserDto> UpdateUserFromUserAsync([FromBody] UpdateAccountFromUserCommand updateUserCommand)
     {
         return await ProcessApiCallAsync<UpdateAccountFromUserCommand, UserDto>(updateUserCommand);
     }
@@ -52,7 +52,7 @@ public class UserManagementController : BaseApiController
     [Auth(Roles.Admin, Roles.SuperAdmin)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task RemoveUserAsync(RemoveUserCommand updateUserCommand)
+    public async Task RemoveUserAsync([FromQuery] RemoveUserCommand updateUserCommand)
     {
         await ProcessApiCallAsync(updateUserCommand);
     }
