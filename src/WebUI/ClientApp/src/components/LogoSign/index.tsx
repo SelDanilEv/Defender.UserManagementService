@@ -4,11 +4,10 @@ import {
   styled,
   useTheme
 } from '@mui/material';
-import { Link } from 'react-router-dom';
 
 import config from 'src/config.json';
 
-const LogoWrapper = styled(Link)(
+const LogoWrapper = styled(Box)(
   ({ theme }) => `
         color: ${theme.palette.text.primary};
         display: flex;
@@ -50,7 +49,7 @@ const Logo = (props: any) => {
   const theme = useTheme();
 
   return (
-    <LogoWrapper to={props.to || "/home"}>
+    <LogoWrapper>
       <Badge
         sx={{
           '.MuiBadge-badge': {

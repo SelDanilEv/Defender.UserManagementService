@@ -124,14 +124,12 @@ const HeaderUserbox = (props: any) => {
             <AccountBoxTwoToneIcon fontSize="small" />
             <ListItemText primary="My Profile" />
           </ListItem>
+          <Divider />
+          <ListItem button onClick={() => Logout()}>
+            <LockOpenTwoToneIcon fontSize="medium" />
+            <ListItemText primary="Sign out" />
+          </ListItem>
         </List>
-        <Divider />
-        <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth onClick={() => Logout()}>
-            <LockOpenTwoToneIcon sx={{ mr: 1 }} />
-            Sign out
-          </Button>
-        </Box>
       </Popover>
     </>
   );

@@ -1,7 +1,7 @@
 import config from 'src/config.json';
 
 
-const stateName = config.APP_CODE + ":state";
+const stateName = config.LOCAL_STORAGE_KEY + ":state";
 
 class StateLoader {
 

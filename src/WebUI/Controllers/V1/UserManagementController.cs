@@ -49,7 +49,7 @@ public class UserManagementController : BaseApiController
     }
 
     [HttpDelete("admin/user")]
-    [Auth(Roles.Admin, Roles.SuperAdmin)]
+    [Auth(Roles.SuperAdmin)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task RemoveUserAsync([FromQuery] RemoveUserCommand updateUserCommand)

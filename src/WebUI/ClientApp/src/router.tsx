@@ -16,9 +16,9 @@ const Loader = (Component) => (props) =>
 
 const Login = Loader(lazy(() => import('src/content/index')));
 
-// Home
+// Configuration
 
-const Home = Loader(lazy(() => import('src/content/pages/Home')));
+const Configuration = Loader(lazy(() => import('src/content/pages/Configuration')));
 
 // User 
 const UserManagementTable = Loader(lazy(() => import('src/content/pages/Users')));
@@ -90,8 +90,18 @@ const routes: RouteObject[] = [
     element: <SidebarLayout />,
     children: [
       {
+        path: '*',
+        element: <Status404 />
+      }
+    ]
+  },
+  {
+    path: 'configuration',
+    element: <SidebarLayout />,
+    children: [
+      {
         path: '',
-        element: <Home />
+        element: <Configuration />
       },
       {
         path: '*',
