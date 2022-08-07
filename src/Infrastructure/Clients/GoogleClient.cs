@@ -8,7 +8,7 @@ namespace Defender.UserManagement.Infrastructure.Clients;
 
 public partial class GoogleClient : IGoogleClient
 {
-    private HttpClient _httpClient;
+    private readonly HttpClient _httpClient;
 
     public GoogleClient(HttpClient httpClient)
     {
