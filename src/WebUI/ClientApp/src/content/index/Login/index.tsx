@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Grid, Typography, Avatar } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { useGoogleLogin } from '@react-oauth/google';
@@ -25,7 +25,6 @@ const TypographyH2 = styled(Typography)(
 );
 
 const sizeOfLoginButtonText = 25;
-const sizeOfLoginButtonTextPx = sizeOfLoginButtonText + "px";
 
 const LoginButton = styled(LockedButton)(
   ({ theme }) => `
@@ -35,6 +34,15 @@ const LoginButton = styled(LockedButton)(
    font-size: ${theme.typography.pxToRem(sizeOfLoginButtonText)};
 `
 );
+
+const GLetter = styled(Avatar)(
+  ({ theme }) => `
+   height: ${theme.typography.pxToRem(sizeOfLoginButtonText)};
+   width: ${theme.typography.pxToRem(sizeOfLoginButtonText)};
+   margin-right: 1px;
+`
+);
+
 
 const Login = (props: any) => {
 
@@ -82,6 +90,7 @@ const Login = (props: any) => {
 
           if (!loginResponse.authorized) {
             ErrorToast("Error during authorization");
+            return;
           }
 
           const authState = {
@@ -132,11 +141,7 @@ const Login = (props: any) => {
             onClick={login}
           >
             <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>Sign in with&nbsp;</Box>
-            <img
-              height={sizeOfLoginButtonTextPx}
-              style={{
-                marginRight: "1px"
-              }}
+            <GLetter
               src="/static/images/logo/google.svg"
               alt=""
             />
