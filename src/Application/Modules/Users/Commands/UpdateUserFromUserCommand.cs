@@ -23,6 +23,8 @@ public sealed class UpdateAccountFromUserCommandValidator : AbstractValidator<Up
         RuleFor(x => x.User.Name).NotNull().NotEmpty().WithMessage("User name is requirement!");
 
         RuleFor(x => x.User.Email).NotNull().NotEmpty().WithMessage("User email is requirement!");
+
+        RuleFor(x => x.User.Roles.Count).NotEqual(0).WithMessage("Users need at least one role!");
     }
 }
 
