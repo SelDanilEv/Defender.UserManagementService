@@ -49,7 +49,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         var details = new ValidationProblemDetails(exception.Errors)
         {
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-            Detail = exception.Message
+            Detail = exception.Errors.FirstOrDefault().Value.FirstOrDefault() ?? exception.Message,
         };
 
         context.Result = new BadRequestObjectResult(details);
