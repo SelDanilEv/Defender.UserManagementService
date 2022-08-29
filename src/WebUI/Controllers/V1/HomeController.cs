@@ -33,7 +33,7 @@ public class HomeController : BaseApiController
         return new { IsAuthorized = true };
     }
 
-    [Auth(Roles.Admin, Roles.SuperAdmin)]
+    [Auth(Roles.SuperAdmin)]
     [HttpGet("configuration")]
     [ProducesResponseType(typeof(Dictionary<string, string>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
