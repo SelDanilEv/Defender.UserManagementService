@@ -2,26 +2,21 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace>Defender.UserManagement.Infrastructure</RootNamespace>
-        <AssemblyName>Defender.UserManagement.Infrastructure</AssemblyName>
+        <RootNamespace>Defender.UserManagementService.Infrastructure</RootNamespace>
+        <AssemblyName>Defender.UserManagementService.Infrastructure</AssemblyName>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
+    
     <ItemGroup>
         <ProjectReference Include="..\Application\Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Common\" />
-    </ItemGroup>
-
-    <ItemGroup>
+      <PackageReference Include="Defender.Utils" Version="1.0.9" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
-      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.21.0" />
-      <PackageReference Include="mongocsharpdriver" Version="2.17.0" />
-      <PackageReference Include="MongoDB.Driver" Version="2.17.0" />
-      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
+      <PackageReference Include="mongocsharpdriver" Version="2.21.0" />
+      <PackageReference Include="MongoDB.Driver" Version="2.21.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -78,6 +73,11 @@
 
     <ItemGroup>
       <Content Remove="C:\Users\dselitsky\.nuget\packages\mongodb.driver.core\2.16.1\build\..\runtimes\win\native\snappy32.dll" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Clients\" />
+      <Folder Include="Helpers\" />
     </ItemGroup>
 
 </Project>

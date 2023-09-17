@@ -1,60 +1,81 @@
-﻿using Defender.UserManagement.Application.Common.Exceptions;
-using Defender.UserManagement.Application.Common.Interfaces;
-using Defender.UserManagement.Application.Common.Interfaces.Repositories.Users;
-using Defender.UserManagement.Domain.Entities.User;
+﻿using Defender.Common.Errors;
+using Defender.Common.Exceptions;
+using Defender.UserManagementService.Application.Common.Interfaces;
+using Defender.UserManagementService.Application.Common.Interfaces.Repositories;
+using Defender.UserManagementService.Domain.Entities;
 
-namespace Defender.UserManagement.Infrastructure.Services;
+namespace Defender.UserManagementService.Infrastructure.Services;
 public class UserManagementService : IUserManagementService
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUserInfoRepository _userInfoRepository;
 
-    public UserManagementService(IUserRepository userRepository)
+    public UserManagementService(
+        IUserInfoRepository userInfoRepository)
     {
-        _userRepository = userRepository;
+        _userInfoRepository = userInfoRepository;
     }
 
-    public async Task<IList<User>> GetAllUsersAsync()
+    public async Task<UserInfo> CreateUserAsync(string email, string phoneNumber, string nickname)
     {
-        var allUsers = await _userRepository.GetAllUsersAsync();
-
-        //allUsers = allUsers.Select(x =>
-        //{
-        //    x.CreatedDate = x.CreatedDate.Value.;
-        //    return x;
-        //}).ToList();
-
-       return allUsers;
-    }
-
-    public async Task<User> GetUserByIdAsync(Guid id)
-    {
-        return await _userRepository.GetUserByIdAsync(id);
-    }
-
-    public async Task<User> GetUsersByEmailAsync(string email)
-    {
-        return await _userRepository.GetUserByEmailAsync(email);
-    }
-
-    public async Task<User> UpdateUserAsync(User user)
-    {
-        var oldUser = await _userRepository.GetUserByIdAsync(user.Id);
-
-        if(oldUser.Email != user.Email)
+        var user = new UserInfo
         {
-            var userWithNewEmail = await _userRepository.GetUserByEmailAsync(user.Email);
+            Email = email,
+            PhoneNumber = phoneNumber,
+            Nickname = nickname
+        };
 
-            if(userWithNewEmail != null)
+        await CheckUserUniquenessAsync(user);
+
+        return await CreateUserAsync(user);
+    }
+
+    public async Task<UserInfo> GetUsersByLoginAsync(string login)
+    {
+        return await _userInfoRepository.GetUserInfoByLoginAsync(login);
+    }
+
+    private async Task CheckUserUniquenessAsync(UserInfo user)
+    {
+        var users = await _userInfoRepository.GetUserInfosByAllFieldsAsync(user);
+
+        users = users.Where(x => x.Id != user.Id).ToList();
+
+        foreach (var existingUser in users)
+        {
+            if (existingUser.Email == user.Email)
             {
-                throw new ValidationException("User with this email is already exist");
+                throw new ServiceException(ErrorCode.BR_USM_EmailAddressInUse);
+            }
+
+            if (!string.IsNullOrWhiteSpace(user.PhoneNumber) && existingUser.PhoneNumber == user.PhoneNumber)
+            {
+                throw new ServiceException(ErrorCode.BR_USM_PhoneNumberInUse);
+            }
+
+            if (existingUser.Nickname == user.Nickname)
+            {
+                throw new ServiceException(ErrorCode.BR_USM_NicknameInUse);
             }
         }
-
-        return await _userRepository.UpdateUserAsync(user);
     }
 
-    public async Task RemoveUserAsync(Guid id)
+    private async Task<UserInfo> CreateUserAsync(UserInfo user)
     {
-        await _userRepository.RemoveUserAsync(id);
+        user.Id = Guid.NewGuid();
+        user.CreatedDate = DateTime.Now;
+
+        await _userInfoRepository.CreateUserInfoAsync(user);
+
+        return user;
+    }
+
+    private async Task<UserInfo> UpdateUserAsync(UserInfo user)
+    {
+        user.Id = Guid.NewGuid();
+        user.CreatedDate = DateTime.Now;
+
+        await _userInfoRepository.UpdateUserInfoAsync(user);
+
+        return user;
     }
 }

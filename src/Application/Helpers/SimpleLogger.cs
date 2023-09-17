@@ -1,4 +1,4 @@
-﻿namespace Defender.UserManagement.Application.Helpers;
+﻿namespace Defender.UserManagementService.Application.Helpers;
 
 public static class SimpleLogger
 {
@@ -13,6 +13,7 @@ public static class SimpleLogger
 
         Serilog.Log.Error("ERROR --- " + DateTime.Now.ToString() + " : " + ex.Message);
         Serilog.Log.Error("ERROR --- " + DateTime.Now.ToString() + " : " + ex.StackTrace);
+
         if (ex.InnerException != null)
         {
             Serilog.Log.Error("ERROR INNER --- " + DateTime.Now.ToString() + " : " + ex.InnerException.Message);

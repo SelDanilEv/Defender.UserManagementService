@@ -1,37 +1,37 @@
-﻿using Defender.UserManagement.Application.Common.Interfaces;
-using Defender.UserManagement.Application.Common.Interfaces.Repositories.Users;
-using Defender.UserManagement.Application.Configuration.Options;
-using Defender.UserManagement.Infrastructure.Clients;
-using Defender.UserManagement.Infrastructure.Clients.Interfaces;
-using Defender.UserManagement.Infrastructure.Repositories.Users;
-using Defender.UserManagement.Infrastructure.Services;
+﻿using Defender.UserManagementService.Application.Common.Interfaces;
+using Defender.UserManagementService.Application.Common.Interfaces.Repositories;
+using Defender.UserManagementService.Infrastructure.Repositories.UserInfos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
-namespace Defender.UserManagement.Infrastructure;
+namespace Defender.UserManagementService.Infrastructure;
 
 public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<IAuthService, AuthService>();
-        services.AddTransient<IUserManagementService, UserManagementService>();
-        services.AddTransient<IGoogleTokenValidationService, GoogleTokenValidationService>();
+        RegisterServices(services);
 
-        services.AddSingleton<IUserRepository, UserRepository>();
+        RegisterRepositories(services);
 
         RegisterApiClients(services);
 
         return services;
     }
 
+    private static void RegisterServices(IServiceCollection services)
+    {
+        services.AddTransient<IUserManagementService, Services.UserManagementService>();
+    }
+
+    private static void RegisterRepositories(IServiceCollection services)
+    {
+        services.AddSingleton<IUserInfoRepository, UserInfoRepository>();
+    }
+
     private static void RegisterApiClients(IServiceCollection services)
     {
-        services.AddHttpClient<IGoogleClient, GoogleClient>("GoogleClient", (serviceProvider, client) =>
-        {
-            client.BaseAddress = new Uri(serviceProvider.GetRequiredService<IOptions<GoogleOption>>().Value.Url);
-        });
+
     }
 
 }

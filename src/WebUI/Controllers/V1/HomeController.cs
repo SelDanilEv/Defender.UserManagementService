@@ -1,17 +1,28 @@
 ﻿using AutoMapper;
-using Defender.UserManagement.WebUI.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Defender.UserManagement.Application.Modules.Home.Queries;
-using Defender.UserManagement.Application.Enums;
-using Defender.UserManagement.Domain.Models;
+using Defender.UserManagementService.Application.Modules.Home.Queries;
+using Defender.Common.Attributes;
+using Defender.Common.Models;
+using Defender.Common.Enums;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Defender.Common.Interfaces;
 
-namespace Defender.UserManagement.WebUI.Controllers.V1;
+namespace Defender.UserManagementService.WebUI.Controllers.V1;
 
 public class HomeController : BaseApiController
 {
-    public HomeController(IMediator mediator, IMapper mapper) : base(mediator, mapper)
+    private readonly IAccountAccessor _accountAccessor;
+
+    public HomeController(
+        IAccountAccessor accountAccessor,
+        IMediator mediator,
+        IMapper mapper)
+        : base(mediator, mapper)
     {
+        _accountAccessor = accountAccessor;
     }
 
     [HttpGet("health")]
@@ -30,7 +41,7 @@ public class HomeController : BaseApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<object> AuthorizationCheckAsync()
     {
-        return new { IsAuthorized = true };
+        return new { IsAuthorized = true, Role = _accountAccessor.AccountInfo.GetHighestRole() };
     }
 
     [Auth(Roles.SuperAdmin)]

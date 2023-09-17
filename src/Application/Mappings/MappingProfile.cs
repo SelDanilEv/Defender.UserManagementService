@@ -1,14 +1,13 @@
 using AutoMapper;
-using Defender.UserManagement.Application.DTOs;
-using Defender.UserManagement.Domain.Entities.User;
+using Defender.Common.DTOs;
+using Defender.UserManagementService.Domain.Entities;
 
-namespace Defender.UserManagement.Application.Common.Mappings;
+namespace Defender.UserManagementService.Application.Common.Mappings;
 
 public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<User, UserDto>()
-            .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate.Value.ToShortDateString()));
+        CreateMap<UserInfo, UserDto>();
     }
 }

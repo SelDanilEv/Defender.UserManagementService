@@ -1,7 +1,12 @@
-using Defender.UserManagement.Application;
-using Defender.UserManagement.Infrastructure;
-using Defender.UserManagement.WebUI;
+using Defender.UserManagementService.Application;
+using Defender.UserManagementService.Infrastructure;
+using Defender.UserManagementService.WebUI;
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +26,7 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("DockerDev"))
 {
     app.UseDeveloperExceptionPage();
 
@@ -37,7 +42,6 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseRouting();
 
 app.UseCors("AllowAll");
@@ -50,7 +54,5 @@ app.UseProblemDetails();
 app.MapControllerRoute(
     name: "default",
     pattern: "api/{controller}/{action=Index}");
-
-app.MapFallbackToFile("index.html");
 
 app.Run();

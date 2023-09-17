@@ -1,16 +1,11 @@
-﻿using Defender.UserManagement.Domain.Entities.User;
+﻿using Defender.Common.DTOs;
+using Defender.UserManagementService.Domain.Entities;
 
-namespace Defender.UserManagement.Application.Common.Interfaces;
+namespace Defender.UserManagementService.Application.Common.Interfaces;
 
 public interface IUserManagementService
 {
-    Task<IList<User>> GetAllUsersAsync();
+    Task<UserInfo> GetUsersByLoginAsync(string login);
+    Task<UserInfo> CreateUserAsync(string email, string phoneNumber, string nickname);
 
-    Task<User> GetUserByIdAsync(Guid id);
-
-    Task<User> GetUsersByEmailAsync(string email);
-
-    Task<User> UpdateUserAsync(User user);
-
-    Task RemoveUserAsync(Guid id);
 }

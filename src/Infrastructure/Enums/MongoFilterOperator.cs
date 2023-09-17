@@ -1,4 +1,4 @@
-﻿namespace Defender.UserManagement.Infrastructure.Enums;
+﻿namespace Defender.UserManagementService.Infrastructure.Enums;
 
 public enum MongoFilterOperator
 {

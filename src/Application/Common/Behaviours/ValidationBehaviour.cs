@@ -1,8 +1,8 @@
-﻿using FluentValidation;
+﻿using Defender.Common.Errors;
+using FluentValidation;
 using MediatR;
-using ValidationException = Defender.UserManagement.Application.Common.Exceptions.ValidationException;
 
-namespace Defender.UserManagement.Application.Common.Behaviours;
+namespace Defender.UserManagementService.Application.Common.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
      where TRequest : IRequest<TResponse>
@@ -14,7 +14,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
         _validators = validators;
     }
 
-    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         if (_validators.Any())
         {
@@ -30,7 +30,13 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
                 .ToList();
 
             if (failures.Any())
-                throw new ValidationException(failures);
+            {
+                var errorMessage = failures.Count > 0 ?
+                    failures.FirstOrDefault().ErrorMessage :
+                    ErrorCodeHelper.GetErrorCode(ErrorCode.Unknown);
+
+                throw new ValidationException(errorMessage, failures);
+            }
         }
         return await next();
     }

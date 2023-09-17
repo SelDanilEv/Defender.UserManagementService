@@ -1,7 +1,7 @@
-﻿using Defender.UserManagement.Application.Helpers;
+﻿using Defender.UserManagementService.Application.Helpers;
 using MediatR;
 
-namespace Defender.UserManagement.Application.Common.Behaviours;
+namespace Defender.UserManagementService.Application.Common.Behaviours;
 
 public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
@@ -10,7 +10,7 @@ public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavio
     {
     }
 
-    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         try
         {

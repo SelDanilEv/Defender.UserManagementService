@@ -1,18 +1,18 @@
 ﻿using System.Collections;
-using Defender.UserManagement.Application.Enums;
-using Defender.UserManagement.Application.Helpers;
+using Defender.Common.Enums;
+using Defender.Common.Helpers;
 using MediatR;
 
-namespace Defender.UserManagement.Application.Modules.Home.Queries;
+namespace Defender.UserManagementService.Application.Modules.Home.Queries;
 
 public record GetConfigurationQuery : IRequest<Dictionary<string, string>>
 {
     public ConfigurationLevel Level { get; set; } = ConfigurationLevel.All;
 };
 
-public class GetConfigurationQueryHandler : RequestHandler<GetConfigurationQuery, Dictionary<string, string>>
+public class GetConfigurationQueryHandler : IRequestHandler<GetConfigurationQuery, Dictionary<string, string>>
 {
-    protected override Dictionary<string, string> Handle(GetConfigurationQuery request)
+    public async Task<Dictionary<string, string>> Handle(GetConfigurationQuery request, CancellationToken cancellationToken)
     {
         var result = new Dictionary<string, string>();
 
@@ -38,13 +38,15 @@ public class GetConfigurationQueryHandler : RequestHandler<GetConfigurationQuery
                 }
                 break;
             case ConfigurationLevel.Admin:
-                foreach (EnvVariable envVariable in (EnvVariable[])Enum.GetValues(typeof(EnvVariable)))
+                foreach (Secret secret
+                    in (Secret[])Enum.GetValues(typeof(Secret)))
                 {
-                    result.Add(envVariable.ToString(), EnvVariableResolver.GetEnvironmentVariable(envVariable));
+                    result.Add(secret.ToString(), SecretsHelper.GetSecret(secret));
                 }
                 break;
         }
 
         return result;
     }
+
 }

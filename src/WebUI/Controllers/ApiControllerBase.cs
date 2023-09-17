@@ -1,8 +1,9 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Defender.UserManagement.WebUI.Controllers;
+namespace Defender.UserManagementService.WebUI.Controllers;
 
 [Route("api/[controller]")]
 public class BaseApiController : ControllerBase
