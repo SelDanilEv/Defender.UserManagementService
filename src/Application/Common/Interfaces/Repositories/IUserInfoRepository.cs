@@ -9,6 +9,6 @@ public interface IUserInfoRepository
     Task<UserInfo> GetUserInfoByIdAsync(Guid id);
     Task<UserInfo> GetUserInfoByLoginAsync(string login);
     Task<UserInfo> CreateUserInfoAsync(UserInfo account);
-    Task<UserInfo> UpdateUserInfoAsync(UserInfo updatedAccount);
+    Task<UserInfo> ReplaceUserInfoAsync(UserInfo updatedAccount);
     Task RemoveUserInfoAsync(Guid id);
 }

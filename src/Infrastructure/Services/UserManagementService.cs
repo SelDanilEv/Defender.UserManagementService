@@ -68,14 +68,4 @@ public class UserManagementService : IUserManagementService
 
         return user;
     }
-
-    private async Task<UserInfo> UpdateUserAsync(UserInfo user)
-    {
-        user.Id = Guid.NewGuid();
-        user.CreatedDate = DateTime.Now;
-
-        await _userInfoRepository.UpdateUserInfoAsync(user);
-
-        return user;
-    }
 }

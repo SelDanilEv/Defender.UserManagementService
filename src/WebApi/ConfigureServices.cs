@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
+using System.Text.Json.Serialization;
 
 namespace Defender.UserManagementService.WebUI;
 
@@ -36,7 +37,11 @@ public static class ConfigureServices
 
         services.AddFluentValidationAutoValidation();
 
-        services.AddControllers();
+        services.AddControllers().AddJsonOptions(x =>
+        {
+            x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            x.JsonSerializerOptions.IgnoreNullValues = true;
+        });
 
         services.Configure<ApiBehaviorOptions>(options =>
             options.SuppressModelStateInvalidFilter = true);
@@ -115,25 +120,32 @@ public static class ConfigureServices
 
         options.Map<ValidationException>(exception =>
         {
-            var validationProblemDetails = new ValidationProblemDetails(exception.Errors);
-            validationProblemDetails.Detail = exception.Message;
-            validationProblemDetails.Status = StatusCodes.Status422UnprocessableEntity;
+            var validationProblemDetails = new ValidationProblemDetails(exception.Errors)
+            {
+                Detail = exception.Message,
+                Status = StatusCodes.Status422UnprocessableEntity
+            };
+
             return validationProblemDetails;
         });
 
         options.Map<ForbiddenAccessException>(exception =>
         {
-            var problemDetails = new ProblemDetails();
-            problemDetails.Detail = exception.Message;
-            problemDetails.Status = StatusCodes.Status403Forbidden;
+            var problemDetails = new ProblemDetails
+            {
+                Detail = exception.Message,
+                Status = StatusCodes.Status403Forbidden
+            };
             return problemDetails;
         });
 
         options.Map<ServiceException>(exception =>
         {
-            var problemDetails = new ProblemDetails();
-            problemDetails.Detail = exception.Message;
-            problemDetails.Status = StatusCodes.Status400BadRequest;
+            var problemDetails = new ProblemDetails
+            {
+                Detail = exception.Message,
+                Status = StatusCodes.Status400BadRequest
+            };
             return problemDetails;
         });
 
@@ -143,9 +155,11 @@ public static class ConfigureServices
 
         options.Map<Exception>(exception =>
         {
-            var problemDetails = new ProblemDetails();
-            problemDetails.Detail = ErrorCodeHelper.GetErrorCode(ErrorCode.UnhandledError);
-            problemDetails.Status = StatusCodes.Status500InternalServerError;
+            var problemDetails = new ProblemDetails
+            {
+                Detail = ErrorCodeHelper.GetErrorCode(ErrorCode.UnhandledError),
+                Status = StatusCodes.Status500InternalServerError
+            };
             return problemDetails;
         }); ;
     }

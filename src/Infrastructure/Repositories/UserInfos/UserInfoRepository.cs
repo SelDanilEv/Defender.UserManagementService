@@ -1,7 +1,8 @@
-﻿using Defender.Common.Errors;
+﻿using Defender.Common.Configuration.Options;
+using Defender.Common.Errors;
 using Defender.Common.Exceptions;
+using Defender.Common.Repositories;
 using Defender.UserManagementService.Application.Common.Interfaces.Repositories;
-using Defender.UserManagementService.Application.Configuration.Options;
 using Defender.UserManagementService.Domain.Entities;
 using Microsoft.Extensions.Options;
 
@@ -30,9 +31,9 @@ public class UserInfoRepository : MongoRepository<UserInfo>, IUserInfoRepository
         return await AddItemAsync(user);
     }
 
-    public async Task<UserInfo> UpdateUserInfoAsync(UserInfo updatedUserInfo)
+    public async Task<UserInfo> ReplaceUserInfoAsync(UserInfo updatedUserInfo)
     {
-        return await UpdateItemAsync(updatedUserInfo);
+        return await ReplaceItemAsync(updatedUserInfo);
     }
 
     public async Task RemoveUserInfoAsync(Guid id)
@@ -44,14 +45,14 @@ public class UserInfoRepository : MongoRepository<UserInfo>, IUserInfoRepository
 
     public async Task<IList<UserInfo>> GetUserInfosByAllFieldsAsync(UserInfo account)
     {
-        var filter = MergeFilters(Enums.MongoFilterOperator.OR,
+        var filter = MergeFilters(MongoFilterOperator.OR,
                                         CreateFilterDefinition(a => a.Email, account.Email),
                                         CreateFilterDefinition(a => a.Nickname, account.Nickname)
                                         );
 
         if (string.IsNullOrWhiteSpace(account.PhoneNumber))
         {
-            filter = MergeFilters(Enums.MongoFilterOperator.OR,
+            filter = MergeFilters(MongoFilterOperator.OR,
                                         filter,
                                         CreateFilterDefinition(a => a.PhoneNumber, account.PhoneNumber));
         }
@@ -61,7 +62,7 @@ public class UserInfoRepository : MongoRepository<UserInfo>, IUserInfoRepository
 
     public async Task<UserInfo> GetUserInfoByLoginAsync(string login)
     {
-        var filter = MergeFilters(Enums.MongoFilterOperator.OR,
+        var filter = MergeFilters(MongoFilterOperator.OR,
                                         CreateFilterDefinition(a => a.Email, login),
                                         CreateFilterDefinition(a => a.PhoneNumber, login)
                                         );
