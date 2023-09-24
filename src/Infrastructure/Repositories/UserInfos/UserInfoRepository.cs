@@ -1,6 +1,8 @@
 ﻿using Defender.Common.Configuration.Options;
 using Defender.Common.Errors;
 using Defender.Common.Exceptions;
+using Defender.Common.Models;
+using Defender.Common.Pagination;
 using Defender.Common.Repositories;
 using Defender.UserManagementService.Application.Common.Interfaces.Repositories;
 using Defender.UserManagementService.Domain.Entities;
@@ -14,64 +16,45 @@ public class UserInfoRepository : MongoRepository<UserInfo>, IUserInfoRepository
     {
     }
 
-    #region Default methods
-
-    public async Task<IList<UserInfo>> GetAllUserInfosAsync()
-    {
-        return await GetItemsAsync();
-    }
-
-    public async Task<UserInfo> GetUserInfoByIdAsync(Guid id)
-    {
-        return await GetItemAsync(id);
-    }
-
     public async Task<UserInfo> CreateUserInfoAsync(UserInfo user)
     {
         return await AddItemAsync(user);
     }
 
-    public async Task<UserInfo> ReplaceUserInfoAsync(UserInfo updatedUserInfo)
-    {
-        return await ReplaceItemAsync(updatedUserInfo);
-    }
-
-    public async Task RemoveUserInfoAsync(Guid id)
-    {
-        await RemoveItemAsync(id);
-    }
-
-    #endregion
-
     public async Task<IList<UserInfo>> GetUserInfosByAllFieldsAsync(UserInfo account)
     {
-        var filter = MergeFilters(MongoFilterOperator.OR,
-                                        CreateFilterDefinition(a => a.Email, account.Email),
-                                        CreateFilterDefinition(a => a.Nickname, account.Nickname)
-                                        );
+        var paginationSettings = PaginationSettings<UserInfo>.DefaultRequest();
+
+        var findRequest = FindModelRequest<UserInfo>.Init(a => a.Email, account.Email)
+                                                    .Or(a => a.Nickname, account.Nickname);
 
         if (string.IsNullOrWhiteSpace(account.PhoneNumber))
         {
-            filter = MergeFilters(MongoFilterOperator.OR,
-                                        filter,
-                                        CreateFilterDefinition(a => a.PhoneNumber, account.PhoneNumber));
+            findRequest.Or(a => a.PhoneNumber, account.PhoneNumber);
         }
 
-        return await GetItemsWithFilterAsync(filter);
+        paginationSettings.AddFilter(findRequest);
+
+        var pagedResult = await GetItemsAsync(paginationSettings);
+
+        return pagedResult.Items;
     }
 
     public async Task<UserInfo> GetUserInfoByLoginAsync(string login)
     {
-        var filter = MergeFilters(MongoFilterOperator.OR,
-                                        CreateFilterDefinition(a => a.Email, login),
-                                        CreateFilterDefinition(a => a.PhoneNumber, login)
-                                        );
+        var paginationSettings = PaginationSettings<UserInfo>.DefaultRequest();
 
-        var users = await GetItemsWithFilterAsync(filter);
+        var findRequest = FindModelRequest<UserInfo>.Init(a => a.Email, login)
+                                                    .Or(a => a.PhoneNumber, login);
 
-        if (users.Count == 0)
+
+        paginationSettings.AddFilter(findRequest);
+
+        var pagedResult = await GetItemsAsync(paginationSettings);
+
+        if (pagedResult.Items.Count == 0)
             throw new NotFoundException(ErrorCode.BR_USM_UserWithSuchLoginIsNotExist);
 
-        return users.FirstOrDefault();
+        return pagedResult.Items.FirstOrDefault();
     }
 }

@@ -4,11 +4,7 @@ namespace Defender.UserManagementService.Application.Common.Interfaces.Repositor
 
 public interface IUserInfoRepository
 {
-    Task<IList<UserInfo>> GetAllUserInfosAsync();
     Task<IList<UserInfo>> GetUserInfosByAllFieldsAsync(UserInfo account);
-    Task<UserInfo> GetUserInfoByIdAsync(Guid id);
     Task<UserInfo> GetUserInfoByLoginAsync(string login);
     Task<UserInfo> CreateUserInfoAsync(UserInfo account);
-    Task<UserInfo> ReplaceUserInfoAsync(UserInfo updatedAccount);
-    Task RemoveUserInfoAsync(Guid id);
 }
