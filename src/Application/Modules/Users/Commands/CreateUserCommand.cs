@@ -5,7 +5,7 @@ using Defender.UserManagementService.Domain.Entities;
 using FluentValidation;
 using MediatR;
 
-namespace Defender.UserManagementService.Application.Modules.Account.Commands;
+namespace Defender.UserManagementService.Application.Modules.Users.Commands;
 
 public record CreateUserCommand : IRequest<UserInfo>
 {

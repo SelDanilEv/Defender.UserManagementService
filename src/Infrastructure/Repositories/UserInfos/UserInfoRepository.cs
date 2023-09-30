@@ -40,6 +40,11 @@ public class UserInfoRepository : MongoRepository<UserInfo>, IUserInfoRepository
         return pagedResult.Items;
     }
 
+    public async Task<UserInfo> GetUserInfoByIdAsync(Guid userId)
+    {
+        return await GetItemAsync(userId);
+    }
+
     public async Task<UserInfo> GetUserInfoByLoginAsync(string login)
     {
         var paginationSettings = PaginationSettings<UserInfo>.DefaultRequest();

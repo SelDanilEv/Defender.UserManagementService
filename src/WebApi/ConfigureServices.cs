@@ -19,11 +19,11 @@ using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
 
-namespace Defender.UserManagementService.WebUI;
+namespace Defender.UserManagementService.WebApi;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddWebUIServices(this IServiceCollection services, IWebHostEnvironment environment, IConfiguration configuration)
+    public static IServiceCollection AddWebApiServices(this IServiceCollection services, IWebHostEnvironment environment, IConfiguration configuration)
     {
         services.AddSingleton<IAccountAccessor, AccountAccessor>();
 

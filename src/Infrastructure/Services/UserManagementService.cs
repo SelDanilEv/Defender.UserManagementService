@@ -29,6 +29,11 @@ public class UserManagementService : IUserManagementService
         return await CreateUserAsync(user);
     }
 
+    public async Task<UserInfo> GetUsersByGuidAsync(Guid userId)
+    {
+        return await _userInfoRepository.GetUserInfoByIdAsync(userId);
+    }
+
     public async Task<UserInfo> GetUsersByLoginAsync(string login)
     {
         return await _userInfoRepository.GetUserInfoByLoginAsync(login);

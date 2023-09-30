@@ -4,16 +4,16 @@ using Defender.UserManagementService.Domain.Entities;
 using FluentValidation;
 using MediatR;
 
-namespace Defender.UserManagementService.Application.Modules.Account.Queries;
+namespace Defender.UserManagementService.Application.Modules.Users.Queries;
 
 public record GetUserByLoginQuery : IRequest<UserInfo>
 {
     public string? Login { get; set; }
 };
 
-public sealed class CreateUserCommandValidator : AbstractValidator<GetUserByLoginQuery>
+public sealed class GetUserByLoginQueryValidator : AbstractValidator<GetUserByLoginQuery>
 {
-    public CreateUserCommandValidator()
+    public GetUserByLoginQueryValidator()
     {
         RuleFor(s => s.Login)
                   .NotEmpty().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_EmptyLogin));
