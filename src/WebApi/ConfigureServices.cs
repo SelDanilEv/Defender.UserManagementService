@@ -18,20 +18,27 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
+using Defender.UserManagementService.Application.Configuration.Exstension;
+using Defender.Common.Exstension;
+using System.Threading.Tasks;
 
 namespace Defender.UserManagementService.WebApi;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddWebApiServices(this IServiceCollection services, IWebHostEnvironment environment, IConfiguration configuration)
+    public static async Task<IServiceCollection> AddWebApiServices(this IServiceCollection services, IWebHostEnvironment environment, IConfiguration configuration)
     {
         services.AddSingleton<IAccountAccessor, AccountAccessor>();
+
+        services.AddApplicationOptions(configuration);
+
+        services.AddSecretAccessor();
 
         services.AddHttpContextAccessor();
 
         services.AddProblemDetails(options => ConfigureProblemDetails(options, environment));
 
-        services.AddJwtAuthentication(configuration);
+        await services.AddJwtAuthentication(configuration);
 
         services.AddSwagger();
 
@@ -49,8 +56,10 @@ public static class ConfigureServices
         return services;
     }
 
-    private static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+    private static async Task<IServiceCollection> AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
+        var jwtSecret = await SecretsHelper.GetSecretAsync(Common.Enums.Secret.JwtSecret);
+
         services.AddAuthentication(auth =>
         {
             auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -66,8 +75,7 @@ public static class ConfigureServices
                 ValidIssuer = configuration["JwtTokenIssuer"],
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(
-                        SecretsHelper.GetSecret(Common.Enums.Secret.JwtSecret)))
+                    Encoding.UTF8.GetBytes(jwtSecret))
             };
         });
 
