@@ -8,7 +8,6 @@ public static class ServiceOptionsExtensions
 {
     public static IServiceCollection AddApplicationOptions(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddCommonOptions(configuration);
 
         return services;
     }

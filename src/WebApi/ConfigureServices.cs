@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
-using Defender.Common.Accessors;
 using Defender.Common.Errors;
 using Defender.Common.Exceptions;
 using Defender.Common.Helpers;
-using Defender.Common.Interfaces;
 using FluentValidation.AspNetCore;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,25 +18,25 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
 using Defender.UserManagementService.Application.Configuration.Exstension;
 using Defender.Common.Exstension;
-using System.Threading.Tasks;
 
 namespace Defender.UserManagementService.WebApi;
 
 public static class ConfigureServices
 {
-    public static async Task<IServiceCollection> AddWebApiServices(this IServiceCollection services, IWebHostEnvironment environment, IConfiguration configuration)
+    public static IServiceCollection AddWebApiServices(
+        this IServiceCollection services,
+        IWebHostEnvironment environment,
+        IConfiguration configuration)
     {
-        services.AddSingleton<IAccountAccessor, AccountAccessor>();
+        services.AddCommonServices(configuration);
 
         services.AddApplicationOptions(configuration);
-
-        services.AddSecretAccessor();
 
         services.AddHttpContextAccessor();
 
         services.AddProblemDetails(options => ConfigureProblemDetails(options, environment));
 
-        await services.AddJwtAuthentication(configuration);
+        services.AddJwtAuthentication(configuration);
 
         services.AddSwagger();
 
@@ -56,15 +54,13 @@ public static class ConfigureServices
         return services;
     }
 
-    private static async Task<IServiceCollection> AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        var jwtSecret = await SecretsHelper.GetSecretAsync(Common.Enums.Secret.JwtSecret);
-
         services.AddAuthentication(auth =>
         {
             auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
+        }).AddJwtBearer(async options =>
         {
             options.RequireHttpsMetadata = false;
             options.SaveToken = true;
@@ -75,7 +71,7 @@ public static class ConfigureServices
                 ValidIssuer = configuration["JwtTokenIssuer"],
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(jwtSecret))
+                    Encoding.UTF8.GetBytes(await SecretsHelper.GetSecretAsync(Common.Enums.Secret.JwtSecret)))
             };
         });
 

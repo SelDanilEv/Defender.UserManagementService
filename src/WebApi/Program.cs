@@ -20,7 +20,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-await builder.Services.AddWebApiServices(builder.Environment, builder.Configuration);
+builder.Services.AddWebApiServices(builder.Environment, builder.Configuration);
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
