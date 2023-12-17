@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
 using Defender.UserManagementService.Application.Configuration.Exstension;
 using Defender.Common.Exstension;
+using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
 
 namespace Defender.UserManagementService.WebApi;
 
@@ -120,7 +121,7 @@ public static class ConfigureServices
 
     private static void ConfigureProblemDetails(ProblemDetailsOptions options, IWebHostEnvironment environment)
     {
-        options.IncludeExceptionDetails = (ctx, ex) => environment.IsEnvironment("Development") || environment.IsEnvironment("DockerDev");
+        options.IncludeExceptionDetails = (ctx, ex) => environment.IsLocalOrDevelopment();
 
         options.Map<ValidationException>(exception =>
         {

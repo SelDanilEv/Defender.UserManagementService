@@ -1,16 +1,16 @@
 ﻿using Defender.Common.Configuration.Options;
+using Defender.Common.DB.Model;
+using Defender.Common.DB.Pagination;
+using Defender.Common.DB.Repositories;
 using Defender.Common.Errors;
 using Defender.Common.Exceptions;
-using Defender.Common.Models;
-using Defender.Common.Pagination;
-using Defender.Common.Repositories;
 using Defender.UserManagementService.Application.Common.Interfaces.Repositories;
 using Defender.UserManagementService.Domain.Entities;
 using Microsoft.Extensions.Options;
 
 namespace Defender.UserManagementService.Infrastructure.Repositories.UserInfos;
 
-public class UserInfoRepository : MongoRepository<UserInfo>, IUserInfoRepository
+public class UserInfoRepository : BaseMongoRepository<UserInfo>, IUserInfoRepository
 {
     public UserInfoRepository(IOptions<MongoDbOptions> mongoOption) : base(mongoOption.Value)
     {
