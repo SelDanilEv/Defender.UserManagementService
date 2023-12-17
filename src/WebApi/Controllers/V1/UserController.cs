@@ -21,7 +21,7 @@ public class UserController : BaseApiController
     [HttpGet("get-by-id")]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<UserDto> GetByIdAsync([FromBody] GetUserByIdQuery query)
+    public async Task<UserDto> GetByIdAsync([FromQuery] GetUserByIdQuery query)
     {
         return await ProcessApiCallAsync<GetUserByIdQuery, UserDto>(query);
     }
@@ -30,9 +30,18 @@ public class UserController : BaseApiController
     [HttpGet("get-by-login")]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<UserDto> GetByLoginAsync([FromBody] GetUserByLoginQuery query)
+    public async Task<UserDto> GetByLoginAsync([FromQuery] GetUserByLoginQuery query)
     {
         return await ProcessApiCallAsync<GetUserByLoginQuery, UserDto>(query);
+    }
+
+    [Auth(Roles.Admin)]
+    [HttpGet("is-email-taken")]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task<bool> CheckIsEmailTakenAsync([FromQuery] CheckIsEmailTakenQuery query)
+    {
+        return await ProcessApiCallAsync<CheckIsEmailTakenQuery, bool>(query);
     }
 
     [Auth(Roles.Admin)]

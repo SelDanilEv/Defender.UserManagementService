@@ -47,19 +47,23 @@ public class UserInfoRepository : BaseMongoRepository<UserInfo>, IUserInfoReposi
 
     public async Task<UserInfo> GetUserInfoByLoginAsync(string login)
     {
-        var paginationSettings = PaginationSettings<UserInfo>.DefaultRequest();
-
         var findRequest = FindModelRequest<UserInfo>.Init(a => a.Email, login)
                                                     .Or(a => a.PhoneNumber, login);
 
+        var userInfo = await GetItemAsync(findRequest);
 
-        paginationSettings.AddFilter(findRequest);
-
-        var pagedResult = await GetItemsAsync(paginationSettings);
-
-        if (pagedResult.Items.Count == 0)
+        if (userInfo == null)
             throw new NotFoundException(ErrorCode.BR_USM_UserWithSuchLoginIsNotExist);
 
-        return pagedResult.Items.FirstOrDefault();
+        return userInfo;
+    }
+
+    public async Task<bool> CheckIfEmailTakenAsync(string email)
+    {
+        var findRequest = FindModelRequest<UserInfo>.Init(a => a.Email, email);
+
+        var userInfo = await GetItemAsync(findRequest);
+
+        return userInfo != null;
     }
 }

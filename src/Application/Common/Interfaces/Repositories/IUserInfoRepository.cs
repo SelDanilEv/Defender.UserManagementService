@@ -7,5 +7,6 @@ public interface IUserInfoRepository
     Task<IList<UserInfo>> GetUserInfosByAllFieldsAsync(UserInfo account);
     Task<UserInfo> GetUserInfoByIdAsync(Guid userId);
     Task<UserInfo> GetUserInfoByLoginAsync(string login);
+    Task<bool> CheckIfEmailTakenAsync(string email);
     Task<UserInfo> CreateUserInfoAsync(UserInfo account);
 }

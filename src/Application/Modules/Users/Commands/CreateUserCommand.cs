@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Defender.Common.Errors;
+﻿using Defender.Common.Errors;
 using Defender.UserManagementService.Application.Common.Interfaces;
 using Defender.UserManagementService.Domain.Entities;
 using FluentValidation;

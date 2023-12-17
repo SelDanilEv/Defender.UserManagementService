@@ -33,7 +33,7 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserInf
 
     public async Task<UserInfo> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
     {
-        var userInfo = await _userManagementService.GetUsersByGuidAsync(query.UserId);
+        var userInfo = await _userManagementService.GetUsersByIdAsync(query.UserId);
 
         return userInfo;
     }

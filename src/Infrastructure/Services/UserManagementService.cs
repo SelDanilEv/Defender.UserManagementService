@@ -29,7 +29,7 @@ public class UserManagementService : IUserManagementService
         return await CreateUserAsync(user);
     }
 
-    public async Task<UserInfo> GetUsersByGuidAsync(Guid userId)
+    public async Task<UserInfo> GetUsersByIdAsync(Guid userId)
     {
         return await _userInfoRepository.GetUserInfoByIdAsync(userId);
     }
@@ -37,6 +37,11 @@ public class UserManagementService : IUserManagementService
     public async Task<UserInfo> GetUsersByLoginAsync(string login)
     {
         return await _userInfoRepository.GetUserInfoByLoginAsync(login);
+    }
+
+    public async Task<bool> CheckIfEmailTakenAsync(string login)
+    {
+        return await _userInfoRepository.CheckIfEmailTakenAsync(login);
     }
 
     private async Task CheckUserUniquenessAsync(UserInfo user)
