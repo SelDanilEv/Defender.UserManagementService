@@ -76,7 +76,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Clients\" />
       <Folder Include="Enums\" />
       <Folder Include="Helpers\" />
     </ItemGroup>

@@ -21,6 +21,11 @@ public class UserInfoRepository : BaseMongoRepository<UserInfo>, IUserInfoReposi
         return await AddItemAsync(user);
     }
 
+    public async Task<UserInfo> UpdateUserInfoAsync(UpdateModelRequest<UserInfo> request)
+    {
+        return await UpdateItemAsync(request);
+    }
+
     public async Task<IList<UserInfo>> GetUserInfosByAllFieldsAsync(UserInfo account)
     {
         var paginationSettings = PaginationSettings<UserInfo>.DefaultRequest();

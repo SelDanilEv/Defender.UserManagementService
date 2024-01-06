@@ -18,16 +18,16 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
     public CreateUserCommandValidator()
     {
         RuleFor(s => s.Email)
-                  .NotEmpty().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_ACC_EmptyEmail))
-                  .EmailAddress().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_ACC_InvalidEmail));
+                  .NotEmpty().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_EmptyEmail))
+                  .EmailAddress().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_InvalidEmail));
 
-        RuleFor(p => p.PhoneNumber)
-                  .Matches(ValidationConstants.PhoneNumberRegex).WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_ACC_InvalidPhoneNumber));
+        //RuleFor(p => p.PhoneNumber)
+        //          .Matches(ValidationConstants.PhoneNumberRegex).WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_InvalidPhoneNumber));
 
         RuleFor(x => x.Nickname)
-                  .NotEmpty().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_ACC_EmptyNickname))
-                  .MinimumLength(ValidationConstants.MinNicknameLength).WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_ACC_MinNicknameLength))
-                  .MaximumLength(ValidationConstants.MaxNicknameLength).WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_ACC_MaxNicknameLength));
+                  .NotEmpty().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_EmptyNickname))
+                  .MinimumLength(ValidationConstants.MinNicknameLength).WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_MinNicknameLength))
+                  .MaximumLength(ValidationConstants.MaxNicknameLength).WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_MaxNicknameLength));
     }
 }
 

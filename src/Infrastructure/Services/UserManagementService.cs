@@ -1,18 +1,27 @@
 ﻿using Defender.Common.Errors;
 using Defender.Common.Exceptions;
+using Defender.Common.Interfaces;
 using Defender.UserManagementService.Application.Common.Interfaces;
 using Defender.UserManagementService.Application.Common.Interfaces.Repositories;
+using Defender.UserManagementService.Application.Modules.Users.Commands;
 using Defender.UserManagementService.Domain.Entities;
+using Defender.UserManagementService.Infrastructure.Clients.Interfaces;
 
 namespace Defender.UserManagementService.Infrastructure.Services;
 public class UserManagementService : IUserManagementService
 {
+    private readonly IAccountAccessor _accountAccessor;
     private readonly IUserInfoRepository _userInfoRepository;
+    private readonly IIdentityWrapper _identityWrapper;
 
     public UserManagementService(
-        IUserInfoRepository userInfoRepository)
+        IAccountAccessor accountAccessor,
+        IUserInfoRepository userInfoRepository,
+        IIdentityWrapper identityWrapper)
     {
+        _accountAccessor = accountAccessor;
         _userInfoRepository = userInfoRepository;
+        _identityWrapper = identityWrapper;
     }
 
     public async Task<UserInfo> CreateUserAsync(string email, string phoneNumber, string nickname)
@@ -27,6 +36,24 @@ public class UserManagementService : IUserManagementService
         await CheckUserUniquenessAsync(user);
 
         return await CreateUserAsync(user);
+    }
+
+    public async Task<UserInfo> UpdateUserAsync(UpdateUserCommand updateUserInfoCommand)
+    {
+        await CheckUserUniquenessAsync(updateUserInfoCommand.ToUserInfo());
+
+        var updateRequest = updateUserInfoCommand.CreateUpdateRequest();
+
+        var updatedUser = await _userInfoRepository.UpdateUserInfoAsync(updateRequest);
+
+        if (!string.IsNullOrEmpty(updateUserInfoCommand.Email))
+        {
+            await _identityWrapper.UpdateAccountVerificationAsync(
+                updateUserInfoCommand.UserId,
+                false);
+        }
+
+        return updatedUser;
     }
 
     public async Task<UserInfo> GetUsersByIdAsync(Guid userId)
@@ -44,11 +71,14 @@ public class UserManagementService : IUserManagementService
         return await _userInfoRepository.CheckIfEmailTakenAsync(login);
     }
 
-    private async Task CheckUserUniquenessAsync(UserInfo user)
+    private async Task<UserInfo> CheckUserUniquenessAsync(UserInfo user)
     {
         var users = await _userInfoRepository.GetUserInfosByAllFieldsAsync(user);
 
-        users = users.Where(x => x.Id != user.Id).ToList();
+        var thisUser = users.FirstOrDefault(x => x.Id == user.Id);
+
+        if (thisUser != null)
+            users.Remove(thisUser);
 
         foreach (var existingUser in users)
         {
@@ -67,6 +97,8 @@ public class UserManagementService : IUserManagementService
                 throw new ServiceException(ErrorCode.BR_USM_NicknameInUse);
             }
         }
+
+        return thisUser;
     }
 
     private async Task<UserInfo> CreateUserAsync(UserInfo user)

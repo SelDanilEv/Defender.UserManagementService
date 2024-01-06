@@ -1,4 +1,5 @@
-﻿using Defender.UserManagementService.Domain.Entities;
+﻿using Defender.UserManagementService.Application.Modules.Users.Commands;
+using Defender.UserManagementService.Domain.Entities;
 
 namespace Defender.UserManagementService.Application.Common.Interfaces;
 
@@ -8,5 +9,6 @@ public interface IUserManagementService
     Task<UserInfo> GetUsersByLoginAsync(string login);
     Task<bool> CheckIfEmailTakenAsync(string email);
     Task<UserInfo> CreateUserAsync(string email, string phoneNumber, string nickname);
+    Task<UserInfo> UpdateUserAsync(UpdateUserCommand updateUserInfoCommand);
 
 }

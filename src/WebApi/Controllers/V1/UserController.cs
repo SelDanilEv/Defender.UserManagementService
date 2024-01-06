@@ -53,4 +53,13 @@ public class UserController : BaseApiController
         return await ProcessApiCallAsync<CreateUserCommand, UserDto>(createCommand);
     }
 
+    [Auth(Roles.User)]
+    [HttpPut("update")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task<UserDto> UpdateUserAsync([FromBody] UpdateUserCommand command)
+    {
+        return await ProcessApiCallAsync<UpdateUserCommand, UserDto>(command);
+    }
+
 }
