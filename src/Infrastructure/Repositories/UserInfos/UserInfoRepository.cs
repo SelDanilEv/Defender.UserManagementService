@@ -38,7 +38,7 @@ public class UserInfoRepository : BaseMongoRepository<UserInfo>, IUserInfoReposi
             findRequest.Or(a => a.PhoneNumber, account.PhoneNumber);
         }
 
-        paginationSettings.AddFilter(findRequest);
+        paginationSettings.SetupFindOptions(findRequest);
 
         var pagedResult = await GetItemsAsync(paginationSettings);
 
