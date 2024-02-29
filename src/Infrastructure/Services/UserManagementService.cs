@@ -10,12 +10,12 @@ using Defender.UserManagementService.Infrastructure.Clients.Interfaces;
 namespace Defender.UserManagementService.Infrastructure.Services;
 public class UserManagementService : IUserManagementService
 {
-    private readonly IAccountAccessor _accountAccessor;
+    private readonly ICurrentAccountAccessor _accountAccessor;
     private readonly IUserInfoRepository _userInfoRepository;
     private readonly IIdentityWrapper _identityWrapper;
 
     public UserManagementService(
-        IAccountAccessor accountAccessor,
+        ICurrentAccountAccessor accountAccessor,
         IUserInfoRepository userInfoRepository,
         IIdentityWrapper identityWrapper)
     {
