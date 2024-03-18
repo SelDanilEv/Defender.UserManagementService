@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
@@ -61,7 +60,7 @@ public static class ConfigureServices
         {
             auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(async options =>
+        }).AddJwtBearer(options =>
         {
             options.RequireHttpsMetadata = false;
             options.SaveToken = true;
@@ -72,7 +71,7 @@ public static class ConfigureServices
                 ValidIssuer = configuration["JwtTokenIssuer"],
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(await SecretsHelper.GetSecretAsync(Common.Enums.Secret.JwtSecret)))
+                    Encoding.UTF8.GetBytes(SecretsHelper.GetSecretAsync(Common.Enums.Secret.JwtSecret).Result))
             };
         });
 

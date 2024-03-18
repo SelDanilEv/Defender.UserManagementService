@@ -17,9 +17,9 @@ public record UpdateUserCommand : IRequest<UserInfo>
     public UpdateModelRequest<UserInfo> CreateUpdateRequest()
     {
         var updateRequest = UpdateModelRequest<UserInfo>.Init(UserId)
-            .UpdateFieldIfNotNull(x => x.Email, Email)
-            .UpdateFieldIfNotNull(x => x.PhoneNumber, PhoneNumber)
-            .UpdateFieldIfNotNull(x => x.Nickname, Nickname);
+            .SetIfNotNull(x => x.Email, Email)
+            .SetIfNotNull(x => x.PhoneNumber, PhoneNumber)
+            .SetIfNotNull(x => x.Nickname, Nickname);
 
         return updateRequest;
     }
