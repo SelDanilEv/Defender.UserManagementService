@@ -36,18 +36,21 @@ public record UpdateUserCommand : IRequest<UserInfo>
     }
 };
 
-public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
+public sealed class UpdateUserCommandValidator 
+    : AbstractValidator<UpdateUserCommand>
 {
     public UpdateUserCommandValidator()
     {
         RuleFor(s => s.UserId)
             .NotEmpty()
-                .WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_EmptyUserId));
+            .WithMessage(ErrorCodeHelper.GetErrorCode(
+                ErrorCode.VL_USM_EmptyUserId));
 
         RuleFor(s => s.Email)
             .EmailAddress()
             .When(command => !string.IsNullOrEmpty(command.Email))
-                .WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_InvalidEmail));
+                .WithMessage(ErrorCodeHelper.GetErrorCode(
+                    ErrorCode.VL_USM_InvalidEmail));
 
         //RuleFor(p => p.PhoneNumber)
         //          .Matches(ValidationConstants.PhoneNumberRegex).WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_InvalidPhoneNumber));
@@ -55,32 +58,28 @@ public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCom
         RuleFor(x => x.Nickname)
             .MinimumLength(ValidationConstants.MinNicknameLength)
             .When(command => !string.IsNullOrEmpty(command.Nickname))
-              .WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_MinNicknameLength))
+              .WithMessage(ErrorCodeHelper.GetErrorCode(
+                  ErrorCode.VL_USM_MinNicknameLength))
             .MaximumLength(ValidationConstants.MaxNicknameLength)
-              .WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_MaxNicknameLength));
+              .WithMessage(ErrorCodeHelper.GetErrorCode(
+                  ErrorCode.VL_USM_MaxNicknameLength));
 
         RuleFor(command => command)
             .Must(command => !string.IsNullOrEmpty(command.Email)
             || !string.IsNullOrEmpty(command.PhoneNumber)
             || !string.IsNullOrEmpty(command.Nickname))
-                .WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_AtLeastOneFieldRequired));
+                .WithMessage(ErrorCodeHelper.GetErrorCode(
+                    ErrorCode.VL_USM_AtLeastOneFieldRequired));
     }
 }
 
-public sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserInfo>
+public sealed class UpdateUserCommandHandler(
+        IUserManagementService userManagementService) 
+    : IRequestHandler<UpdateUserCommand, UserInfo>
 {
-    private readonly IUserManagementService _userManagementService;
-
-    public UpdateUserCommandHandler(
-        IUserManagementService userManagementService
-        )
-    {
-        _userManagementService = userManagementService;
-    }
-
     public async Task<UserInfo> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var userInfo = await _userManagementService.UpdateUserAsync(request);
+        var userInfo = await userManagementService.UpdateUserAsync(request);
 
         return userInfo;
     }

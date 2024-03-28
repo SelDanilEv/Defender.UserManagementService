@@ -20,20 +20,13 @@ public sealed class GetUserByIdQueryValidator : AbstractValidator<GetUserByIdQue
     }
 }
 
-public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserInfo>
+public class GetUserByIdQueryHandler(
+        IUserManagementService userManagementService) 
+    : IRequestHandler<GetUserByIdQuery, UserInfo>
 {
-    private readonly IUserManagementService _userManagementService;
-
-    public GetUserByIdQueryHandler(
-        IUserManagementService userManagementService
-        )
-    {
-        _userManagementService = userManagementService;
-    }
-
     public async Task<UserInfo> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
     {
-        var userInfo = await _userManagementService.GetUsersByIdAsync(query.UserId);
+        var userInfo = await userManagementService.GetUsersByIdAsync(query.UserId);
 
         return userInfo;
     }

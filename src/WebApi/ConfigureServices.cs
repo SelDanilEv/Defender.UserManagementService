@@ -85,7 +85,7 @@ public static class ConfigureServices
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
-                Title = "User management service",
+                Title = "User Management Service",
                 Description = "Service to manage user personal info",
             });
 

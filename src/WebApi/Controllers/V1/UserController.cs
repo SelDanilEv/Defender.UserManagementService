@@ -8,29 +8,43 @@ using Defender.Common.Models;
 using Defender.Common.DTOs;
 using Defender.UserManagementService.Application.Modules.Users.Commands;
 using Defender.UserManagementService.Application.Modules.Users.Queries;
+using Defender.UserManagementService.Application.DTOs;
 
 namespace Defender.UserManagementService.WebApi.Controllers.V1;
 
-public class UserController : BaseApiController
+public class UserController(
+        IMediator mediator, 
+        IMapper mapper) 
+    : BaseApiController(
+        mediator, 
+        mapper)
 {
-    public UserController(IMediator mediator, IMapper mapper) : base(mediator, mapper)
-    {
-    }
-
     [Auth(Roles.Admin)]
     [HttpGet("get-by-id")]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<UserDto> GetByIdAsync([FromQuery] GetUserByIdQuery query)
+    public async Task<UserDto> GetByIdAsync(
+        [FromQuery] GetUserByIdQuery query)
     {
         return await ProcessApiCallAsync<GetUserByIdQuery, UserDto>(query);
+    }
+
+    [Auth(Roles.User)]
+    [HttpGet("get-public-info-by-id")]
+    [ProducesResponseType(typeof(PublicUserInfoDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    public async Task<PublicUserInfoDto> GetPublicUserInfoByIdAsync(
+        [FromQuery] GetUserByIdQuery query)
+    {
+        return await ProcessApiCallAsync<GetUserByIdQuery, PublicUserInfoDto>(query);
     }
 
     [Auth(Roles.Admin)]
     [HttpGet("get-by-login")]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<UserDto> GetByLoginAsync([FromQuery] GetUserByLoginQuery query)
+    public async Task<UserDto> GetByLoginAsync(
+        [FromQuery] GetUserByLoginQuery query)
     {
         return await ProcessApiCallAsync<GetUserByLoginQuery, UserDto>(query);
     }
@@ -39,7 +53,8 @@ public class UserController : BaseApiController
     [HttpGet("is-email-taken")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<bool> CheckIsEmailTakenAsync([FromQuery] CheckIsEmailTakenQuery query)
+    public async Task<bool> CheckIsEmailTakenAsync(
+        [FromQuery] CheckIsEmailTakenQuery query)
     {
         return await ProcessApiCallAsync<CheckIsEmailTakenQuery, bool>(query);
     }
@@ -48,7 +63,8 @@ public class UserController : BaseApiController
     [HttpPost("create")]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<UserDto> CreateWithCredentialsAsync([FromBody] CreateUserCommand createCommand)
+    public async Task<UserDto> CreateWithCredentialsAsync(
+        [FromBody] CreateUserCommand createCommand)
     {
         return await ProcessApiCallAsync<CreateUserCommand, UserDto>(createCommand);
     }
@@ -57,7 +73,8 @@ public class UserController : BaseApiController
     [HttpPut("update")]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<UserDto> UpdateUserAsync([FromBody] UpdateUserCommand command)
+    public async Task<UserDto> UpdateUserAsync(
+        [FromBody] UpdateUserCommand command)
     {
         return await ProcessApiCallAsync<UpdateUserCommand, UserDto>(command);
     }
