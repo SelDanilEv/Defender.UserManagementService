@@ -8,7 +8,7 @@ using Defender.UserManagementService.Application.Common.Interfaces.Repositories;
 using Defender.UserManagementService.Domain.Entities;
 using Microsoft.Extensions.Options;
 
-namespace Defender.UserManagementService.Infrastructure.Repositories.UserInfos;
+namespace Defender.UserManagementService.Infrastructure.Repositories.UsersInfo;
 
 public class UserInfoRepository : BaseMongoRepository<UserInfo>, IUserInfoRepository
 {
@@ -26,12 +26,29 @@ public class UserInfoRepository : BaseMongoRepository<UserInfo>, IUserInfoReposi
         return await UpdateItemAsync(request);
     }
 
-    public async Task<IList<UserInfo>> GetUserInfosByAllFieldsAsync(UserInfo account)
+    public async Task<PagedResult<UserInfo>> GetUsersAsync(PaginationRequest paginationRequest)
+    {
+        var settings = PaginationSettings<UserInfo>
+            .FromPaginationRequest(paginationRequest);
+
+        return await GetItemsAsync(settings);
+    }
+
+    public async Task<IList<UserInfo>> GetUsersInfoByAllFieldsAsync(UserInfo account)
     {
         var paginationSettings = PaginationSettings<UserInfo>.DefaultRequest();
 
-        var findRequest = FindModelRequest<UserInfo>.Init(a => a.Email, account.Email)
-                                                    .Or(a => a.Nickname, account.Nickname);
+        var findRequest = FindModelRequest<UserInfo>.Init();
+
+        if (string.IsNullOrWhiteSpace(account.Email))
+        {
+            findRequest.Or(a => a.Email, account.Email);
+        }
+
+        if (string.IsNullOrWhiteSpace(account.PhoneNumber))
+        {
+            findRequest.Or(a => a.Nickname, account.Nickname);
+        }
 
         if (string.IsNullOrWhiteSpace(account.PhoneNumber))
         {

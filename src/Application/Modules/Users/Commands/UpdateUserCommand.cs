@@ -1,47 +1,27 @@
-﻿using Defender.Common.DB.Model;
-using Defender.Common.Errors;
+﻿using Defender.Common.Errors;
+using Defender.Common.Exceptions;
+using Defender.Common.Helpers;
+using Defender.Common.Interfaces;
 using Defender.UserManagementService.Application.Common.Interfaces;
+using Defender.UserManagementService.Application.Common.Interfaces.Services;
+using Defender.UserManagementService.Application.Models;
 using Defender.UserManagementService.Domain.Entities;
 using FluentValidation;
 using MediatR;
 
 namespace Defender.UserManagementService.Application.Modules.Users.Commands;
 
-public record UpdateUserCommand : IRequest<UserInfo>
+public class UpdateUserCommand : UpdateUserInfoRequest, IRequest<UserInfo>
 {
-    public Guid UserId { get; set; }
-    public string? Email { get; set; }
-    public string? PhoneNumber { get; set; }
-    public string? Nickname { get; set; }
+    public int? Code { get; set; }
+}
 
-    public UpdateModelRequest<UserInfo> CreateUpdateRequest()
-    {
-        var updateRequest = UpdateModelRequest<UserInfo>.Init(UserId)
-            .SetIfNotNull(x => x.Email, Email)
-            .SetIfNotNull(x => x.PhoneNumber, PhoneNumber)
-            .SetIfNotNull(x => x.Nickname, Nickname);
-
-        return updateRequest;
-    }
-
-    public UserInfo ToUserInfo()
-    {
-        return new UserInfo
-        {
-            Id = UserId,
-            Email = Email,
-            PhoneNumber = PhoneNumber,
-            Nickname = Nickname,
-        };
-    }
-};
-
-public sealed class UpdateUserCommandValidator 
+public sealed class UpdateUserCommandValidator
     : AbstractValidator<UpdateUserCommand>
 {
     public UpdateUserCommandValidator()
     {
-        RuleFor(s => s.UserId)
+        RuleFor(s => s.Id)
             .NotEmpty()
             .WithMessage(ErrorCodeHelper.GetErrorCode(
                 ErrorCode.VL_USM_EmptyUserId));
@@ -53,7 +33,8 @@ public sealed class UpdateUserCommandValidator
                     ErrorCode.VL_USM_InvalidEmail));
 
         //RuleFor(p => p.PhoneNumber)
-        //          .Matches(ValidationConstants.PhoneNumberRegex).WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_InvalidPhoneNumber));
+        //          .Matches(ValidationConstants.PhoneNumberRegex)
+        //          .WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_InvalidPhoneNumber));
 
         RuleFor(x => x.Nickname)
             .MinimumLength(ValidationConstants.MinNicknameLength)
@@ -74,12 +55,36 @@ public sealed class UpdateUserCommandValidator
 }
 
 public sealed class UpdateUserCommandHandler(
-        IUserManagementService userManagementService) 
+        ICurrentAccountAccessor currentAccountAccessor,
+        IUserManagementService userManagementService,
+        IAccessCodeService accessCodeService,
+        IAuthorizationCheckingService authorizationCheckingService)
     : IRequestHandler<UpdateUserCommand, UserInfo>
 {
-    public async Task<UserInfo> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<UserInfo> Handle(
+        UpdateUserCommand request,
+        CancellationToken cancellationToken)
     {
-        var userInfo = await userManagementService.UpdateUserAsync(request);
+        if (!RolesHelper.IsAdmin(currentAccountAccessor.GetRoles()))
+        {
+            if (request.Code.HasValue)
+            {
+                var isCodeValid = await accessCodeService
+                    .VerifyUpdateUserAccessCodeAsync(request.Code.Value);
+
+                if (!isCodeValid)
+                    throw new ServiceException(ErrorCodeHelper.GetErrorCode(
+                                       ErrorCode.BR_ACC_InvalidAccessCode));
+            }
+            else
+            {
+                request.AsUser();
+            }
+        }
+
+        var userInfo = await authorizationCheckingService.ExecuteWithAuthCheckAsync(
+            request.Id,
+            async () => await userManagementService.UpdateUserAsync(request));
 
         return userInfo;
     }

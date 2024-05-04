@@ -6,4 +6,5 @@ public interface IIdentityWrapper
 {
     public Task<AccountDto> UpdateAccountVerificationAsync(Guid accountId, bool isEmailVerified);
 
+    Task<bool> VerifyUpdateUserAccessCodeAsync(int code);
 }

@@ -26,7 +26,7 @@ public class GetUserByLoginQueryHandler(
 {
     public async Task<UserInfo> Handle(GetUserByLoginQuery query, CancellationToken cancellationToken)
     {
-        var userInfo = await userManagementService.GetUsersByLoginAsync(query.Login);
+        var userInfo = await userManagementService.GetUserByLoginAsync(query.Login);
 
         return userInfo;
     }

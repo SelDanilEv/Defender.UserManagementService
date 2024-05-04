@@ -1,27 +1,18 @@
-﻿using AutoMapper;
-using Defender.Common.Clients.Identity;
+﻿using Defender.Common.Clients.Identity;
 using Defender.Common.Interfaces;
 using Defender.Common.Wrapper.Internal;
 using Defender.UserManagementService.Infrastructure.Clients.Interfaces;
 
 namespace Defender.UserManagementService.Infrastructure.Clients.Identity;
 
-public class IdentityWrapper : BaseInternalSwaggerWrapper, IIdentityWrapper
-{
-    private readonly IMapper _mapper;
-    private readonly IIdentityServiceClient _identityServiceClient;
-
-    public IdentityWrapper(
+public class IdentityWrapper(
         IAuthenticationHeaderAccessor authenticationHeaderAccessor,
-        IIdentityServiceClient identityClient,
-        IMapper mapper) : base(
+        IIdentityServiceClient identityClient)
+    : BaseInternalSwaggerWrapper(
             identityClient,
-            authenticationHeaderAccessor)
-    {
-        _identityServiceClient = identityClient;
-        _mapper = mapper;
-    }
-
+            authenticationHeaderAccessor),
+    IIdentityWrapper
+{
     public async Task<AccountDto> UpdateAccountVerificationAsync(
         Guid accountId,
         bool isEmailVerified)
@@ -34,10 +25,26 @@ public class IdentityWrapper : BaseInternalSwaggerWrapper, IIdentityWrapper
                 IsEmailVerified = isEmailVerified
             };
 
-            var response = await _identityServiceClient.UpdateAsync(updateCommand);
+            var response = await identityClient.UpdateAsync(updateCommand);
 
             return response;
         }, AuthorizationType.Service);
+    }
+
+    public async Task<bool> VerifyUpdateUserAccessCodeAsync(int code)
+    {
+        return await ExecuteSafelyAsync(async () =>
+        {
+            var command = new VerifyCodeCommand()
+            {
+                Code = code,
+                Type = VerifyCodeCommandType.UpdateAccount
+            };
+
+            var response = await identityClient.VerifyAsync(command);
+
+            return response;
+        }, AuthorizationType.User);
     }
 
 }

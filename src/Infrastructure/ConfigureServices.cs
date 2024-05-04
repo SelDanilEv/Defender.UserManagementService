@@ -1,10 +1,11 @@
 ﻿using Defender.Common.Clients.Identity;
 using Defender.UserManagementService.Application.Common.Interfaces;
 using Defender.UserManagementService.Application.Common.Interfaces.Repositories;
+using Defender.UserManagementService.Application.Common.Interfaces.Services;
 using Defender.UserManagementService.Application.Configuration.Options;
 using Defender.UserManagementService.Infrastructure.Clients.Identity;
 using Defender.UserManagementService.Infrastructure.Clients.Interfaces;
-using Defender.UserManagementService.Infrastructure.Repositories.UserInfos;
+using Defender.UserManagementService.Infrastructure.Repositories.UsersInfo;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -34,6 +35,7 @@ public static class ConfigureServices
     private static IServiceCollection RegisterServices(this IServiceCollection services)
     {
         services.AddTransient<IUserManagementService, Services.UserManagementService>();
+        services.AddTransient<IAccessCodeService, Services.AccessCodeService>();
 
         return services;
     }
