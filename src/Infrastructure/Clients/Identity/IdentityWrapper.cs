@@ -1,7 +1,7 @@
 ﻿using Defender.Common.Clients.Identity;
 using Defender.Common.Interfaces;
 using Defender.Common.Wrapper.Internal;
-using Defender.UserManagementService.Infrastructure.Clients.Interfaces;
+using Defender.UserManagementService.Application.Common.Interfaces.Wrappers;
 
 namespace Defender.UserManagementService.Infrastructure.Clients.Identity;
 

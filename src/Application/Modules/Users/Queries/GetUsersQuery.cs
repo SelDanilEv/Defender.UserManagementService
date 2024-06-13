@@ -2,6 +2,7 @@
 using Defender.UserManagementService.Application.Common.Interfaces;
 using Defender.UserManagementService.Domain.Entities;
 using FluentValidation;
+using Defender.Common.Extension;
 using MediatR;
 
 namespace Defender.UserManagementService.Application.Modules.Users.Queries;
@@ -19,7 +20,7 @@ public sealed class GetUsersQueryValidator : AbstractValidator<GetUsersQuery>
 }
 
 public class GetUsersQueryHandler(
-        IUserManagementService userManagementService) 
+        IUserManagementService userManagementService)
     : IRequestHandler<GetUsersQuery, PagedResult<UserInfo>>
 {
     public async Task<PagedResult<UserInfo>> Handle(GetUsersQuery query, CancellationToken cancellationToken)

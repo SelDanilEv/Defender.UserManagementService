@@ -1,6 +1,7 @@
 ﻿using Defender.Common.Errors;
 using Defender.UserManagementService.Application.Common.Interfaces;
 using FluentValidation;
+using Defender.Common.Extension;
 using MediatR;
 
 namespace Defender.UserManagementService.Application.Modules.Users.Queries;
@@ -10,7 +11,7 @@ public record CheckIsEmailTakenQuery : IRequest<bool>
     public string? Email { get; set; }
 };
 
-public sealed class IsEmailTakenQueryValidator 
+public sealed class IsEmailTakenQueryValidator
     : AbstractValidator<CheckIsEmailTakenQuery>
 {
     public IsEmailTakenQueryValidator()
@@ -22,7 +23,7 @@ public sealed class IsEmailTakenQueryValidator
 }
 
 public class IsEmailTakenQueryHandler(
-        IUserManagementService userManagementService) 
+        IUserManagementService userManagementService)
     : IRequestHandler<CheckIsEmailTakenQuery, bool>
 {
     public async Task<bool> Handle(CheckIsEmailTakenQuery query, CancellationToken cancellationToken)

@@ -1,7 +1,7 @@
 ﻿using Defender.UserManagementService.Application.Common.Interfaces.Services;
-using Defender.UserManagementService.Infrastructure.Clients.Interfaces;
+using Defender.UserManagementService.Application.Common.Interfaces.Wrappers;
 
-namespace Defender.UserManagementService.Infrastructure.Services;
+namespace Defender.UserManagementService.Application.Services;
 
 public class AccessCodeService(
         IIdentityWrapper identityWrapper)

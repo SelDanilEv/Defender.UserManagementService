@@ -2,6 +2,7 @@
 using Defender.UserManagementService.Application.Common.Interfaces;
 using Defender.UserManagementService.Domain.Entities;
 using FluentValidation;
+using Defender.Common.Extension;
 using MediatR;
 
 namespace Defender.UserManagementService.Application.Modules.Users.Commands;
@@ -19,28 +20,21 @@ public sealed class CreateUserCommandValidator
     public CreateUserCommandValidator()
     {
         RuleFor(s => s.Email)
-                  .NotEmpty()
-                  .WithMessage(ErrorCodeHelper.GetErrorCode(
-                      ErrorCode.VL_USM_EmptyEmail))
-                  .EmailAddress()
-                  .WithMessage(ErrorCodeHelper.GetErrorCode(
-                      ErrorCode.VL_USM_InvalidEmail));
+            .NotEmpty()
+            .WithMessage(ErrorCode.VL_USM_EmptyEmail)
+            .EmailAddress()
+            .WithMessage(ErrorCode.VL_USM_InvalidEmail);
 
         //RuleFor(p => p.PhoneNumber)
-        //          .Matches(ValidationConstants.PhoneNumberRegex).WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_InvalidPhoneNumber));
+        //          .Matches(ValidationConstants.PhoneNumberRegex).WithMessage(ErrorCode.VL_USM_InvalidPhoneNumber));
 
         RuleFor(x => x.Nickname)
-                  .NotEmpty()
-                  .WithMessage(ErrorCodeHelper.GetErrorCode(
-                      ErrorCode.VL_USM_EmptyNickname))
-                  .MinimumLength(
-            ValidationConstants.MinNicknameLength)
-                  .WithMessage(ErrorCodeHelper.GetErrorCode(
-                      ErrorCode.VL_USM_MinNicknameLength))
-                  .MaximumLength(
-            ValidationConstants.MaxNicknameLength)
-                  .WithMessage(ErrorCodeHelper.GetErrorCode(
-                      ErrorCode.VL_USM_MaxNicknameLength));
+            .NotEmpty()
+            .WithMessage(ErrorCode.VL_USM_EmptyNickname)
+            .MinimumLength(ValidationConstants.MinNicknameLength)
+            .WithMessage(ErrorCode.VL_USM_MinNicknameLength)
+            .MaximumLength(ValidationConstants.MaxNicknameLength)
+            .WithMessage(ErrorCode.VL_USM_MaxNicknameLength);
     }
 }
 

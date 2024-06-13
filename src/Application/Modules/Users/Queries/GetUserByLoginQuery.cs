@@ -2,6 +2,7 @@
 using Defender.UserManagementService.Application.Common.Interfaces;
 using Defender.UserManagementService.Domain.Entities;
 using FluentValidation;
+using Defender.Common.Extension;
 using MediatR;
 
 namespace Defender.UserManagementService.Application.Modules.Users.Queries;
@@ -16,12 +17,13 @@ public sealed class GetUserByLoginQueryValidator : AbstractValidator<GetUserByLo
     public GetUserByLoginQueryValidator()
     {
         RuleFor(s => s.Login)
-                  .NotEmpty().WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_EmptyLogin));
+            .NotEmpty()
+            .WithMessage(ErrorCode.VL_USM_EmptyLogin);
     }
 }
 
 public class GetUserByLoginQueryHandler(
-        IUserManagementService userManagementService) 
+        IUserManagementService userManagementService)
     : IRequestHandler<GetUserByLoginQuery, UserInfo>
 {
     public async Task<UserInfo> Handle(GetUserByLoginQuery query, CancellationToken cancellationToken)

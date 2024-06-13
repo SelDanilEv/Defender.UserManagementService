@@ -15,8 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
-using Defender.UserManagementService.Application.Configuration.Exstension;
-using Defender.Common.Exstension;
+using Defender.UserManagementService.Application.Configuration.Extension;
+using Defender.Common.Extension;
 using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
 
 namespace Defender.UserManagementService.WebApi;

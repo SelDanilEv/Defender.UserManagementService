@@ -1,9 +1,10 @@
 ﻿using System.Reflection;
-using Defender.Common.Exstension;
-using Defender.UserManagementService.Application.Configuration.Exstension;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Defender.UserManagementService.Application.Common.Interfaces.Services;
+using Defender.UserManagementService.Application.Common.Interfaces;
+using Defender.UserManagementService.Application.Services;
 
 namespace Defender.UserManagementService.Application;
 
@@ -14,6 +15,16 @@ public static class ConfigureServices
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+        services.RegisterServices();
+
+        return services;
+    }
+
+    private static IServiceCollection RegisterServices(this IServiceCollection services)
+    {
+        services.AddTransient<IUserManagementService, Services.UserManagementService>();
+        services.AddTransient<IAccessCodeService, AccessCodeService>();
 
         return services;
     }

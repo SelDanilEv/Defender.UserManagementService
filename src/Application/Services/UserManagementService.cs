@@ -4,11 +4,11 @@ using Defender.Common.Errors;
 using Defender.Common.Exceptions;
 using Defender.UserManagementService.Application.Common.Interfaces;
 using Defender.UserManagementService.Application.Common.Interfaces.Repositories;
+using Defender.UserManagementService.Application.Common.Interfaces.Wrappers;
 using Defender.UserManagementService.Application.Models;
 using Defender.UserManagementService.Domain.Entities;
-using Defender.UserManagementService.Infrastructure.Clients.Interfaces;
 
-namespace Defender.UserManagementService.Infrastructure.Services;
+namespace Defender.UserManagementService.Application.Services;
 public class UserManagementService(
         IUserInfoRepository userInfoRepository,
         IIdentityWrapper identityWrapper)

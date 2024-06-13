@@ -1,6 +1,6 @@
 ﻿using Defender.Common.Clients.Identity;
 
-namespace Defender.UserManagementService.Infrastructure.Clients.Interfaces;
+namespace Defender.UserManagementService.Application.Common.Interfaces.Wrappers;
 
 public interface IIdentityWrapper
 {

@@ -7,6 +7,7 @@ using Defender.UserManagementService.Application.Common.Interfaces.Services;
 using Defender.UserManagementService.Application.Models;
 using Defender.UserManagementService.Domain.Entities;
 using FluentValidation;
+using Defender.Common.Extension;
 using MediatR;
 
 namespace Defender.UserManagementService.Application.Modules.Users.Commands;
@@ -23,34 +24,29 @@ public sealed class UpdateUserCommandValidator
     {
         RuleFor(s => s.Id)
             .NotEmpty()
-            .WithMessage(ErrorCodeHelper.GetErrorCode(
-                ErrorCode.VL_USM_EmptyUserId));
+            .WithMessage(ErrorCode.VL_USM_EmptyUserId);
 
         RuleFor(s => s.Email)
             .EmailAddress()
             .When(command => !string.IsNullOrEmpty(command.Email))
-                .WithMessage(ErrorCodeHelper.GetErrorCode(
-                    ErrorCode.VL_USM_InvalidEmail));
+            .WithMessage(ErrorCode.VL_USM_InvalidEmail);
 
         //RuleFor(p => p.PhoneNumber)
         //          .Matches(ValidationConstants.PhoneNumberRegex)
-        //          .WithMessage(ErrorCodeHelper.GetErrorCode(ErrorCode.VL_USM_InvalidPhoneNumber));
+        //          .WithMessage(ErrorCode.VL_USM_InvalidPhoneNumber));
 
         RuleFor(x => x.Nickname)
             .MinimumLength(ValidationConstants.MinNicknameLength)
             .When(command => !string.IsNullOrEmpty(command.Nickname))
-              .WithMessage(ErrorCodeHelper.GetErrorCode(
-                  ErrorCode.VL_USM_MinNicknameLength))
+                .WithMessage(ErrorCode.VL_USM_MinNicknameLength)
             .MaximumLength(ValidationConstants.MaxNicknameLength)
-              .WithMessage(ErrorCodeHelper.GetErrorCode(
-                  ErrorCode.VL_USM_MaxNicknameLength));
+                .WithMessage(ErrorCode.VL_USM_MaxNicknameLength);
 
         RuleFor(command => command)
             .Must(command => !string.IsNullOrEmpty(command.Email)
             || !string.IsNullOrEmpty(command.PhoneNumber)
             || !string.IsNullOrEmpty(command.Nickname))
-                .WithMessage(ErrorCodeHelper.GetErrorCode(
-                    ErrorCode.VL_USM_AtLeastOneFieldRequired));
+                .WithMessage(ErrorCode.VL_USM_AtLeastOneFieldRequired);
     }
 }
 
@@ -73,8 +69,7 @@ public sealed class UpdateUserCommandHandler(
                     .VerifyUpdateUserAccessCodeAsync(request.Code.Value);
 
                 if (!isCodeValid)
-                    throw new ServiceException(ErrorCodeHelper.GetErrorCode(
-                                       ErrorCode.BR_ACC_InvalidAccessCode));
+                    throw new ServiceException(ErrorCode.BR_ACC_InvalidAccessCode);
             }
             else
             {
