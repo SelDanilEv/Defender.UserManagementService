@@ -36,7 +36,7 @@ public class UserInfoRepository : BaseMongoRepository<UserInfo>, IUserInfoReposi
 
     public async Task<IList<UserInfo>> GetUsersInfoByAllFieldsAsync(UserInfo account)
     {
-        var paginationSettings = PaginationSettings<UserInfo>.DefaultRequest();
+        var paginationSettings = PaginationSettings<UserInfo>.WithoutPagination();
 
         var findRequest = FindModelRequest<UserInfo>.Init();
 

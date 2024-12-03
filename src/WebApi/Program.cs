@@ -1,13 +1,13 @@
+using Defender.Common.Extension;
 using Defender.UserManagementService.Application;
 using Defender.UserManagementService.Infrastructure;
-using Defender.UserManagementService.WebApi;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Defender.Common.Extension;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 

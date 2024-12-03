@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json.Serialization;
+using Defender.Common.Enums;
 using Defender.Common.Errors;
 using Defender.Common.Exceptions;
+using Defender.Common.Extension;
 using Defender.Common.Helpers;
+using Defender.UserManagementService.Application.Configuration.Extension;
 using FluentValidation.AspNetCore;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,14 +16,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
-using System.Text.Json.Serialization;
-using Defender.UserManagementService.Application.Configuration.Extension;
-using Defender.Common.Extension;
+using Microsoft.OpenApi.Models;
 using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
 
-namespace Defender.UserManagementService.WebApi;
+namespace WebApi;
 
 public static class ConfigureServices
 {
@@ -71,7 +72,7 @@ public static class ConfigureServices
                 ValidIssuer = configuration["JwtTokenIssuer"],
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(SecretsHelper.GetSecretSync(Common.Enums.Secret.JwtSecret, true)))
+                    Encoding.UTF8.GetBytes(SecretsHelper.GetSecretSync(Secret.JwtSecret, true)))
             };
         });
 

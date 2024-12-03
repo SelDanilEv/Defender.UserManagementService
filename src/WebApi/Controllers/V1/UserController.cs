@@ -1,18 +1,18 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+﻿using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using Defender.Common.Attributes;
 using Defender.Common.Consts;
+using Defender.Common.DB.Pagination;
 using Defender.Common.DTOs;
+using Defender.UserManagementService.Application.DTOs;
 using Defender.UserManagementService.Application.Modules.Users.Commands;
 using Defender.UserManagementService.Application.Modules.Users.Queries;
-using Defender.UserManagementService.Application.DTOs;
-using Defender.Common.DB.Pagination;
-using System;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Defender.UserManagementService.WebApi.Controllers.V1;
+namespace WebApi.Controllers.V1;
 
 public class UserController(
         IMediator mediator,

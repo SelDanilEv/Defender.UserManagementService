@@ -1,7 +1,7 @@
 ﻿using Defender.Common.Errors;
-using Defender.UserManagementService.Application.Common.Interfaces;
-using FluentValidation;
 using Defender.Common.Extension;
+using Defender.UserManagementService.Application.Common.Interfaces.Services;
+using FluentValidation;
 using MediatR;
 
 namespace Defender.UserManagementService.Application.Modules.Users.Queries;

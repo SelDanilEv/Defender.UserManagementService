@@ -2,7 +2,7 @@
 using Defender.UserManagementService.Application.Models;
 using Defender.UserManagementService.Domain.Entities;
 
-namespace Defender.UserManagementService.Application.Common.Interfaces;
+namespace Defender.UserManagementService.Application.Common.Interfaces.Services;
 
 public interface IUserManagementService
 {

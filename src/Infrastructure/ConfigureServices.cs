@@ -1,10 +1,7 @@
 ﻿using Defender.Common.Clients.Identity;
-using Defender.UserManagementService.Application.Common.Interfaces;
 using Defender.UserManagementService.Application.Common.Interfaces.Repositories;
-using Defender.UserManagementService.Application.Common.Interfaces.Services;
 using Defender.UserManagementService.Application.Common.Interfaces.Wrappers;
 using Defender.UserManagementService.Application.Configuration.Options;
-using Defender.UserManagementService.Application.Services;
 using Defender.UserManagementService.Infrastructure.Clients.Identity;
 using Defender.UserManagementService.Infrastructure.Repositories.UsersInfo;
 using Microsoft.Extensions.Configuration;

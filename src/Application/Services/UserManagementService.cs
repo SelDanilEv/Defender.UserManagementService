@@ -2,8 +2,8 @@
 using Defender.Common.DB.Pagination;
 using Defender.Common.Errors;
 using Defender.Common.Exceptions;
-using Defender.UserManagementService.Application.Common.Interfaces;
 using Defender.UserManagementService.Application.Common.Interfaces.Repositories;
+using Defender.UserManagementService.Application.Common.Interfaces.Services;
 using Defender.UserManagementService.Application.Common.Interfaces.Wrappers;
 using Defender.UserManagementService.Application.Models;
 using Defender.UserManagementService.Domain.Entities;

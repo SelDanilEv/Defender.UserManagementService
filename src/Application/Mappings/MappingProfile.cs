@@ -3,7 +3,7 @@ using Defender.Common.Mapping;
 using Defender.UserManagementService.Application.DTOs;
 using Defender.UserManagementService.Domain.Entities;
 
-namespace Defender.UserManagementService.Application.Common.Mappings;
+namespace Defender.UserManagementService.Application.Mappings;
 
 public class MappingProfile : BaseMappingProfile
 {

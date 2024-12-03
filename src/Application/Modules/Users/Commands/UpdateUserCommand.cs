@@ -1,13 +1,12 @@
 ﻿using Defender.Common.Errors;
 using Defender.Common.Exceptions;
+using Defender.Common.Extension;
 using Defender.Common.Helpers;
 using Defender.Common.Interfaces;
-using Defender.UserManagementService.Application.Common.Interfaces;
 using Defender.UserManagementService.Application.Common.Interfaces.Services;
 using Defender.UserManagementService.Application.Models;
 using Defender.UserManagementService.Domain.Entities;
 using FluentValidation;
-using Defender.Common.Extension;
 using MediatR;
 
 namespace Defender.UserManagementService.Application.Modules.Users.Commands;

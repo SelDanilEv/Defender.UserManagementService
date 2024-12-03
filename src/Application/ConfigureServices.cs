@@ -1,10 +1,9 @@
 ﻿using System.Reflection;
+using Defender.UserManagementService.Application.Common.Interfaces.Services;
+using Defender.UserManagementService.Application.Services;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Defender.UserManagementService.Application.Common.Interfaces.Services;
-using Defender.UserManagementService.Application.Common.Interfaces;
-using Defender.UserManagementService.Application.Services;
 
 namespace Defender.UserManagementService.Application;
 
